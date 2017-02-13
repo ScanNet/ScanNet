@@ -36,7 +36,7 @@ Nearest neighbor 3d model retrieval based on the features of the 3D object class
 
 To compute nearest neighbors, first extract the features from both the query and the database by: 
  ```
- th generate_feat.lua --model [model] --h5_list_path [path to h5 file list to generate features for] --partial_data [true if partial data] --file_label_file [assocation from h5 data to names and labels] --output_file [output file (features)] --output_name_file [output file (names)] --classes_file [optional, defines set of classes to consider]
+ th generate_feat.lua --model [model] --h5_list_path [path to h5 file list to generate features for] --partial_data [use this flag if partial data] --file_label_file [assocation from h5 data to names and labels] --output_file [output file (features)] --output_name_file [output file (names)] --classes_file [optional, defines set of classes to consider]
  ```
 then compute the nearest neighbors with:
  ```
