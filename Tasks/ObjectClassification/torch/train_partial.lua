@@ -18,8 +18,8 @@ opt_string = [[
     --max_epoch             (default 200)           maximum number of epochs
     --jitter_step           (default 2)             jitter augmentation step size
     --model                 (default 3dnin_fc_partial)      model name (voxnet, 3dnin, 3dnin_fc, subvolume_sup, aniprobing)
-    --train_data            (default "data/h5_scannet/train_data.txt")     txt file containing train h5 filenames
-    --test_data             (default "data/h5_scannet/test_data.txt")      txt file containing test h5 filenames
+    --train_data            (default "data/h5_scannet/train_shape_voxel_data_list.txt")     txt file containing train h5 filenames
+    --test_data             (default "data/h5_scannet/test_shape_voxel_data_list.txt")      txt file containing test h5 filenames
     --retrain               (default "")            retrain model
     --classCountFile        (default "")            counts per class to weight the criterion
 ]]
