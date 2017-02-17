@@ -86,7 +86,7 @@ If you use the ScanNet data or code please cite:
 @article{dai2017scannet,
     title={ScanNet: Richly-annotated 3D Reconstructions of Indoor Scenes},
     author={Dai, Angela and Chang, Angel X and Savva, Manolis and Halber, Maciej and Funkhouser, Thomas and Niessner, Matthias},
-    journal={TODO},
+    journal={arXiv preprint arXiv:1702.04405},
     year={2017}
 }
 ```
