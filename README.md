@@ -99,4 +99,5 @@ If you have any questions, please contact us at scannet@googlegroups.com
 
 
 ## License
+The data is released under a <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 License</a>.  
 Copyright (c) 2017
