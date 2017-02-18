@@ -6,6 +6,7 @@ Train/val/test split for ScanNet is given in [Benchmark](Benchmark).
 Training tasks use [Torch7](http://torch.ch/docs/getting-started.html), with torch packages `cudnn`, `cunn`, `hdf5`, `xlua`.
 
 Train/test data from the ScanNet release should be placed into a `data` folder in the `torch` folder of the respective task, e.g., for 3D Object Classification, unzip the `obj_classification.zip` into `Tasks/ObjectClassification/torch/data`.
+(Or edit the paths in the `[phase]_shape_voxel_data_list.txt` and input the train/test paths to `train.lua`.)
 
 Code to generate the training data from ScanNet data to come soon.
 
