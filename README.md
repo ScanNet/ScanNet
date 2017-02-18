@@ -7,7 +7,7 @@ ScanNet is an RGB-D video dataset containing 2.5 million views in more than 1500
 If you would like to download the ScanNet data, please fill out an agreement to the [ScanNet Terms of Use](http://dovahkiin.stanford.edu/scannet-public/ScanNet_TOS.pdf) and send it to us at scannet@googlegroups.com
 
 ### Data Organization
-The data in ScanNet is organized by RGB-D sequence. Each sequence is stored under a directory with a unique id containing the timestamp and device id.  The raw data captured during scanning, camera poses and surface mesh reconstructions, and annotation metadata are all stored together for the given sequence.  The directory has the following structure:
+The data in ScanNet is organized by RGB-D sequence. Each sequence is stored under a directory with named `scene<spaceId>_<scanId>`, or `scene%04d_%02d`, where each space corresponds to a unique location (0-indexed).  The raw data captured during scanning, camera poses and surface mesh reconstructions, and annotation metadata are all stored together for the given sequence.  The directory has the following structure:
 ```shell
 <scanId>
 |-- <scanId>_vh.sens
