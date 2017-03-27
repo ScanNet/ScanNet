@@ -2,14 +2,16 @@
 The scanner app acquires RGB-D scans using a [structure.io sensor](https://structure.io), stores color, depth and IMU data on local memory and then uploads to the data staging server for processing.
 
 ## Prerequisites for compilation
-- iPad Air 2 or iPad Pro (Should work with other iPads or iPhones in theory--untested)
-- Xcode 7.2
+- iPad Air 2 (can work with other iPads and iPhones but untested)
+- Xcode 7.2 (get from app store or https://developer.apple.com/download/more/ -- newer Xcode versions work but may require project file updates)
 - Included external dependencies: [Structure.io sensor SDK](https://developer.structure.io/sdk) and [GPUImage](https://github.com/BradLarson/GPUImage).
 
 ## Build
 - Open Scanner.xcodeproj with Xcode
 - Set the URL to the data upload server at the top of `Scanner/ViewController.h`
-- Build the Scanner target for your targeted device
+- Attach your iOS device and authorize the development machine to build to the device
+- Build the Scanner target for your device (select "Scanner" and your attached device name at the top left next to the "play" icon, and click the "play" icon)
+- Detach the device from the development machine, attach the structure sensor to the device, and run the Scanner app
 
 ## Data Formats
 
