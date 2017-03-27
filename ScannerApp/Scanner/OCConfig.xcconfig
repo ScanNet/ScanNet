@@ -1,0 +1,27 @@
+//
+//  OCConfig.xcconfig
+//
+//  Created by Pat O'Keefe on 4/19/13.
+//  Copyright (c) 2013 Occipital. All rights reserved.
+//
+
+
+// Relative location of the top level arcturus folder
+ARCTURUS_LOCATION = ../../arcturus
+EIGEN = $(ARCTURUS_LOCATION)/ext/eigen3
+
+OPENCV_ROOT = $(ARCTURUS_LOCATION)/ext/opencv/miniopencv
+OPENCV_INCLUDES = $(OPENCV_ROOT)/include $(OPENCV_ROOT)/modules/core/include $(OPENCV_ROOT)/modules/calib3d/include $(OPENCV_ROOT)/modules/features2d/include $(OPENCV_ROOT)/modules/flann/include $(OPENCV_ROOT)/modules/imgproc/include $(OPENCV_ROOT)/modules/rgbd/include $(CVD_INCLUDES)
+
+HEADER_SEARCH_PATHS = $(EIGEN) $(OPENCV_INCLUDES) $(ARCTURUS_LOCATION)/lib $(ARCTURUS_LOCATION)/sdk/frameworks
+
+// We need our C++ compiler to be C++11 compliant. Should be compiler default, but this is safer.
+GCC_C_LANGUAGE_STANDARD = gnu99
+CLANG_CXX_LANGUAGE_STANDARD = gnu++0x
+CLANG_CXX_LIBRARY = libc++
+
+// Linking against Eigen with Static Libraries causes many warnings that cause zero problems at runtime
+GCC_SYMBOLS_PRIVATE_EXTERN = YES
+GCC_INLINES_ARE_PRIVATE_EXTERN = YES
+
+ARCHS = armv7 armv7s arm64
