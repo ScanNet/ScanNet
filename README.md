@@ -71,6 +71,11 @@ Tools for working with ScanNet data.
 
 * [SensReader](SensReader) loads the ScanNet `.sens` data of compressed RGB-D frames, camera intrinsics and extrinsics, and IMU data.
 
+## ScanNet Scanner iPad App
+
+* [ScannerApp](ScannerApp) is designed for easy capture of RGB-D sequences using an iPad with attached Structure.io sensor.
+
+
 ## Benchmark Tasks
 We provide code for several scene understanding benchmarks on ScanNet:
 * 3D object classification
