@@ -80,7 +80,7 @@ Tools for working with ScanNet data.
 We provide code for several scene understanding benchmarks on ScanNet:
 * 3D object classification
 * 3D object retrieval
-* Dense voxel labeling
+* Semantic voxel labeling
 
 See [Tasks](Tasks).
 
