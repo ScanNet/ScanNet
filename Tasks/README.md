@@ -45,3 +45,15 @@ then compute the nearest neighbors with:
  ```
  python nearest_neighbor.py --query_feats [feature file from generate_feat] --database_feats [feature file from generate_feat] --database_models [names corresponding to database feats] --output [output file] 
  ```
+
+### Semantic Voxel Labeling
+
+Prediction of class labels per voxel for voxels on the surface of a scan. Voxels of a scan are labeled column by column using the surrounding neighborhood information (31x31x62 neighborhood for labeling the 1x1x62 center column). Note that the class labels embedded in the h5 train/test data are nyu40 labels.
+
+* Training:  
+ run
+ ```
+ th train.lua --train_data [path to train h5 file list] --test_data [path to test h5 file list]
+ ```
+ with the appropriate paths to the train/test data (use '--help' to see more options)
+ 
