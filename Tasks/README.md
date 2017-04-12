@@ -25,7 +25,7 @@ Classification of partially-scanned objects, voxelized to 30x30x30. We use the [
  
 * Citation:  
 ```
-@inproceedings{qi2016volumetric,
+@article{qi2016volumetric,
     title={Volumetric and Multi-View CNNs for Object Classification on 3D Data},
     author={Charles Ruizhongtai Qi and Hao Su and Matthias Nie{\ss}ner and Angela Dai and Mengyuan Yan and Leonidas Guibas},
     journal={Proc. Computer Vision and Pattern Recognition (CVPR), IEEE},
