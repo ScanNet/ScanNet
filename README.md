@@ -82,6 +82,8 @@ We provide code for several scene understanding benchmarks on ScanNet:
 * 3D object retrieval
 * Semantic voxel labeling
 
+Trained models can be downloaded with the ScanNet data release.
+
 See [Tasks](Tasks).
 
 
