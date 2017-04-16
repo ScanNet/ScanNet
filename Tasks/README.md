@@ -2,6 +2,8 @@
 
 Train/val/test split for ScanNet is given in [Benchmark](Benchmark).
 
+Trained models can be downloaded with the ScanNet data release.
+
 ## Installation
 Training tasks use [Torch7](http://torch.ch/docs/getting-started.html), with torch packages `cudnn`, `cunn`, `hdf5`, `xlua`.
 
