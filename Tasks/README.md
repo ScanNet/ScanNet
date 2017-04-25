@@ -1,6 +1,7 @@
 # ScanNet Benchmark Tasks
 
 Train/val/test split for ScanNet is given in [Benchmark](Benchmark).
+Label mappings (`scannet-labels.combined.tsv`) can be downloaded with the ScanNet data release. Note that the ScanNet label ids are the line numbers of the file (1-indexed from the first object).
 
 Trained models can be downloaded with the ScanNet data release.
 
@@ -16,7 +17,7 @@ Code to generate the training data from ScanNet data to come soon.
 
 ### 3D Object Classification
 
-Classification of partially-scanned objects, voxelized to 30x30x30. We use the [3D CNN framework](https://github.com/charlesq34/3dcnn.torch) of [Qi et. al.](https://arxiv.org/abs/1604.03265) with an additional data channel encoding known/unknown voxels according to the camera scanning trajectory.
+Classification of partially-scanned objects, voxelized to 30x30x30. We use the [3D CNN framework](https://github.com/charlesq34/3dcnn.torch) of [Qi et. al.](https://arxiv.org/abs/1604.03265) with an additional data channel encoding known/unknown voxels according to the camera scanning trajectory. The object classes used are given in [classes_ObjClassification-ShapeNetCore55.txt](Benchmark/classes_ObjClassification-ShapeNetCore55.txt), using ShapeNetCore55 label ids.
 
 * Training:  
  run
@@ -50,7 +51,7 @@ then compute the nearest neighbors with:
 
 ### Semantic Voxel Labeling
 
-Prediction of class labels per voxel for voxels on the surface of a scan. Voxels of a scan are labeled column by column using the surrounding neighborhood information (31x31x62 neighborhood for labeling the 1x1x62 center column). Note that the class labels embedded in the h5 train/test data are nyu40 labels.
+Prediction of class labels per voxel for voxels on the surface of a scan. Voxels of a scan are labeled column by column using the surrounding neighborhood information (31x31x62 neighborhood for labeling the 1x1x62 center column). The object classes used for ScanNet are given in [classes_SemVoxLabel-nyu40id.txt](Benchmark/classes_SemVoxLabel-nyu40id.txt), using nyu40 label ids.
 
 * Training:  
  ```
