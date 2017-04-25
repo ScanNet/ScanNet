@@ -20,6 +20,10 @@ The data in ScanNet is organized by RGB-D sequence. Each sequence is stored unde
     Over-segmentation of annotation mesh
 |-- <scanId>.aggregation.json
     Aggregated instance-level semantic annotations
+|-- <scanId>_vh_clean.segs.json, <scanId>_vh_clean.aggregation.json
+    Aggregated instance-level semantic annotations on hi-res mesh
+|-- <scanId>_vh_clean_2.labels.ply
+    Visualization of aggregated semantic segmentation; colored by nyu40 labels; ply property 'label' denotes the ScanNet label id
 ```
 
 ### Data Formats
@@ -82,9 +86,12 @@ We provide code for several scene understanding benchmarks on ScanNet:
 * 3D object retrieval
 * Semantic voxel labeling
 
-Trained models can be downloaded with the ScanNet data release.
+Label mappings and trained models can be downloaded with the ScanNet data release.
 
 See [Tasks](Tasks).
+
+### Labels
+The label mapping file (`scannet-labels.combined.tsv`) in the ScanNet release contains mappings from the labels provided in the ScanNet annotations to the object category sets of [NYUv2](http://cs.nyu.edu/~silberman/datasets/nyu_depth_v2.html), [ModelNet](http://modelnet.cs.princeton.edu/), [ShapeNet](https://www.shapenet.org/), and [WordNet](https://wordnet.princeton.edu/) synsets. Note that the ScanNet label ids are the line numbers of the file (1-indexed from the first object).
 
 
 ## Citation
