@@ -23,7 +23,7 @@ The data in ScanNet is organized by RGB-D sequence. Each sequence is stored unde
 |-- <scanId>_vh_clean.segs.json, <scanId>_vh_clean.aggregation.json
     Aggregated instance-level semantic annotations on hi-res mesh
 |-- <scanId>_vh_clean_2.labels.ply
-    Visualization of aggregated semantic segmentation; colored by nyu40 labels; ply property 'label' denotes the ScanNet label id
+    Visualization of aggregated semantic segmentation; colored by nyu40 labels (see [legend](img/legend.png)); ply property 'label' denotes the ScanNet label id)
 ```
 
 ### Data Formats
