@@ -23,7 +23,15 @@ The data in ScanNet is organized by RGB-D sequence. Each sequence is stored unde
 |-- <scanId>_vh_clean.segs.json, <scanId>_vh_clean.aggregation.json
     Aggregated instance-level semantic annotations on hi-res mesh
 |-- <scanId>_vh_clean_2.labels.ply
-    Visualization of aggregated semantic segmentation; colored by nyu40 labels (see [legend](img/legend.png)); ply property 'label' denotes the ScanNet label id)
+    Visualization of aggregated semantic segmentation; colored by nyu40 labels (see img/legend; ply property 'label' denotes the ScanNet label id)
+|-- <scanId>_2d-label.zip
+    Raw 2d projections of aggregated annotation labels as 16-bit pngs with ScanNet label ids
+|-- <scanId>_2d-instance.zip
+    Raw 2d projections of aggregated annotation instances as 8-bit pngs
+|-- <scanId>_2d-label-filt.zip
+    Filtered 2d projections of aggregated annotation labels as 16-bit pngs with ScanNet label ids
+|-- <scanId>_2d-instance-filt.zip
+    Filtered 2d projections of aggregated annotation instances as 8-bit pngs
 ```
 
 ### Data Formats
@@ -111,7 +119,7 @@ If you have any questions, please contact us at scannet@googlegroups.com
 
 ## Changelog
 
-
 ## License
-The data is released under a <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 License</a>.  
+The data is released under the [ScanNet Terms of Use](http://dovahkiin.stanford.edu/scannet-public/ScanNet_TOS.pdf), and the code is released under the MIT license.
+
 Copyright (c) 2017
