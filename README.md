@@ -78,6 +78,9 @@ Compressed binary format with per-frame color, depth, camera pose and other data
 }
 ```
 
+**2d annotation projections (`*_2d-label.zip`, `*_2d-instance.zip`, `*_2d-label-filt.zip`, `*_2d-instance-filt.zip`)**:
+Projection of 3d aggregated annotation of a scan into its RGB-D frames, according to the computed camera trajectory. 
+
 ### ScanNet C++ Toolkit
 Tools for working with ScanNet data.
 
@@ -99,8 +102,7 @@ Label mappings and trained models can be downloaded with the ScanNet data releas
 See [Tasks](Tasks).
 
 ### Labels
-The label mapping file (`scannet-labels.combined.tsv`) in the ScanNet release contains mappings from the labels provided in the ScanNet annotations to the object category sets of [NYUv2](http://cs.nyu.edu/~silberman/datasets/nyu_depth_v2.html), [ModelNet](http://modelnet.cs.princeton.edu/), [ShapeNet](https://www.shapenet.org/), and [WordNet](https://wordnet.princeton.edu/) synsets. Note that the ScanNet label ids are the line numbers of the file (1-indexed from the first object).
-
+The label mapping file (`scannet-labels.combined.tsv`) in the ScanNet release contains mappings from the labels provided in the ScanNet annotations (`id`) to the object category sets of [NYUv2](http://cs.nyu.edu/~silberman/datasets/nyu_depth_v2.html), [ModelNet](http://modelnet.cs.princeton.edu/), [ShapeNet](https://www.shapenet.org/), and [WordNet](https://wordnet.princeton.edu/) synsets. 
 
 ## Citation
 If you use the ScanNet data or code please cite:
