@@ -1,7 +1,7 @@
 # ScanNet Benchmark Tasks
 
 Train/val/test split for ScanNet is given in [Benchmark](Benchmark).
-Label mappings (`scannet-labels.combined.tsv`) can be downloaded with the ScanNet data release. Note that the ScanNet label ids are the line numbers of the file (1-indexed from the first object).
+Label mappings (`scannet-labels.combined.tsv`) can be downloaded with the ScanNet data release. ScanNet label ids listed under `id`.
 
 Trained models can be downloaded with the ScanNet data release.
 
