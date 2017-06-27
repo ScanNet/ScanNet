@@ -712,6 +712,8 @@ GLKVector4 getIntrinsicsFromGlProj(const GLKMatrix4& matrix, unsigned int width,
         [self cleanUpFileWriting];
         g_frameCount = 0;
         g_encodedFrameCount = 0;
+        _colorTimestamps.clear();
+        _depthTimestamps.clear();
     }
 }
 
