@@ -22,7 +22,7 @@ end
 -- create net
 if (opt.retrain == '' or opt.retrain == nil) then
 
-    local nf0 = 8
+    local nf0 = 32
     net:add(cudnn.VolumetricConvolution(2, nf0, 4, 3, 3, 2, 2, 2))   -- output nf0 x 30x15x15
     net:add(cudnn.VolumetricBatchNormalization(nf0))
     net:add(cudnn.ReLU())
@@ -34,7 +34,7 @@ if (opt.retrain == '' or opt.retrain == nil) then
     net:add(cudnn.ReLU())
     net:add(nn.VolumetricDropout(0.2))
 
-    local nf1 = 16
+    local nf1 = 64
     net:add(cudnn.VolumetricConvolution(nf0, nf1, 4, 3, 3, 2, 2, 2))  -- output nf1 x 14x7x7
     net:add(cudnn.VolumetricBatchNormalization(nf1))
     net:add(cudnn.ReLU())
@@ -46,7 +46,7 @@ if (opt.retrain == '' or opt.retrain == nil) then
     net:add(cudnn.ReLU())
     net:add(nn.VolumetricDropout(0.2))
 
-    local nf2 = 32
+    local nf2 = 128
     net:add(cudnn.VolumetricConvolution(nf1, nf2, 4, 3, 3, 2, 2, 2))  -- output nf x 6x3x3
     net:add(cudnn.VolumetricBatchNormalization(nf2))
     net:add(cudnn.ReLU())
