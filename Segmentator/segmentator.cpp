@@ -216,11 +216,11 @@ void writeToJSON(const string& filename, const string& scanId,
 
 int main(int argc, const char** argv) {
   if (argc < 2) {
-    printf("Usage: ./segmentator input.ply kThresh [segMinVerts]\n");
+    printf("Usage: ./segmentator input.ply [kThresh] [segMinVerts] (defaults: kThresh=0.01 segMinVerts=20)\n");
     exit(-1);
   } else {
     const string plyFile = argv[1];
-    const float kthr = atof(argv[2]);
+    const float kthr = argc > 2 ? (float)atof(argv[2]) : 0.01f;
     const int segMinVerts = argc > 3 ? atoi(argv[3]) : 20;
     printf("Segmenting %s with kThresh=%f, segMinVerts=%d ...\n", plyFile.c_str(), kthr, segMinVerts);
     const vector<int> comps = segment(plyFile, kthr, segMinVerts);
