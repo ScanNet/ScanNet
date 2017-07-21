@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
+set(CMAKE_CXX_STANDARD 11)
+project(Segmentator)
+set(SOURCES segmentator.cpp tinyply.cpp)
+add_executable(segmentator ${SOURCES})
