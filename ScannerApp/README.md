@@ -8,7 +8,7 @@ The scanner app acquires RGB-D scans using a [structure.io sensor](https://struc
 
 ## Build
 - Open Scanner.xcodeproj with Xcode
-- Set the URL to the data upload server at the top of `Scanner/ViewController.h`
+- Set the URL to the data upload server at the top of `Scanner/Config.h`
 - Attach your iOS device and authorize the development machine to build to the device
 - Build the Scanner target for your device (select "Scanner" and your attached device name at the top left next to the "play" icon, and click the "play" icon)
 - Detach the device from the development machine, attach the structure sensor to the device, and run the Scanner app

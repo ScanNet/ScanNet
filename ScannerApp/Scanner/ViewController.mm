@@ -22,10 +22,6 @@
 #include <sys/sysctl.h>
 #include <tgmath.h>
 
-#define UPLOAD ":8000/upload"
-#define VERIFY ":8000/verify"
-
-#define READ_CHUNK_SIZE 4096
 
 NSUInteger g_uploadedCount = 0;
 NSUInteger g_fileCount = 0;
