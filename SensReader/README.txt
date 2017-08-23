@@ -6,7 +6,8 @@ Example to decode .sens files:
 - metadata output in _info.txt (includes intrinsics, etc.)
 - IMU data is not saved out (it's stored in m_IMUFrames)
 
-run ./sens <sensFile> <outputDir>
+Run:
+./sens <sensFile> <outputDir>
 
 Hint: 	keep the sens files as they are a nice represention
 		see processFrame(..) to decode independent frames
