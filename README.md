@@ -102,7 +102,7 @@ Label mappings and trained models can be downloaded with the ScanNet data releas
 See [Tasks](Tasks).
 
 ### Labels
-The label mapping file (`scannet-labels.combined.tsv`) in the ScanNet release contains mappings from the labels provided in the ScanNet annotations (`id`) to the object category sets of [NYUv2](http://cs.nyu.edu/~silberman/datasets/nyu_depth_v2.html), [ModelNet](http://modelnet.cs.princeton.edu/), [ShapeNet](https://www.shapenet.org/), and [WordNet](https://wordnet.princeton.edu/) synsets. 
+The label mapping file (`scannet-labels.combined.tsv`) in the ScanNet task data release contains mappings from the labels provided in the ScanNet annotations (`id`) to the object category sets of [NYUv2](http://cs.nyu.edu/~silberman/datasets/nyu_depth_v2.html), [ModelNet](http://modelnet.cs.princeton.edu/), [ShapeNet](https://www.shapenet.org/), and [WordNet](https://wordnet.princeton.edu/) synsets. 
 
 ## Citation
 If you use the ScanNet data or code please cite:
