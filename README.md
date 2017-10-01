@@ -90,6 +90,9 @@ Tools for working with ScanNet data.
 
 * [ScannerApp](ScannerApp) is designed for easy capture of RGB-D sequences using an iPad with attached Structure.io sensor.
 
+## ScanNet Scanner Data Server
+
+* [Server](Server) contains the server code that receives RGB-D sequences from iPads running the Scanner app.
 
 ## Benchmark Tasks
 We provide code for several scene understanding benchmarks on ScanNet:
