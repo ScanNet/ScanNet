@@ -831,7 +831,7 @@ GLKVector4 getIntrinsicsFromGlProj(const GLKMatrix4& matrix, unsigned int width,
     NSString *absH264File = [NSString stringWithUTF8String:(curFilePrefix + ".h264").c_str()];
     NSString *h264FileSize = [NSString stringWithFormat:@"%llu",
                               [[[NSFileManager defaultManager] attributesOfItemAtPath:absH264File error:&error] fileSize]];
-    if (!(h264FileSize > 0) || error)
+    if (!h264FileSize || error)
     {
         NSLog(@"H264 file %@, size %@, error: %@", absH264File, h264FileSize, error);
         remove = true;
@@ -841,7 +841,7 @@ GLKVector4 getIntrinsicsFromGlProj(const GLKMatrix4& matrix, unsigned int width,
     NSString *absDepthFile = [NSString stringWithUTF8String:(curFilePrefix + ".h264").c_str()];
     NSString *depthFileSize = [NSString stringWithFormat:@"%llu",
                               [[[NSFileManager defaultManager] attributesOfItemAtPath:absDepthFile error:&error] fileSize]];
-    if (!(depthFileSize > 0) || error)
+    if (!depthFileSize || error)
     {
         NSLog(@"Depth file %@, size %@, error: %@", absDepthFile, depthFileSize, error);
         remove = true;
@@ -851,7 +851,7 @@ GLKVector4 getIntrinsicsFromGlProj(const GLKMatrix4& matrix, unsigned int width,
     NSString *absMetaFile = [NSString stringWithUTF8String:(curFilePrefix + ".h264").c_str()];
     NSString *metaFileSize = [NSString stringWithFormat:@"%llu",
                               [[[NSFileManager defaultManager] attributesOfItemAtPath:absMetaFile error:&error] fileSize]];
-    if (!(metaFileSize > 0) || error)
+    if (!metaFileSize || error)
     {
         NSLog(@"Meta file %@, size %@, error: %@", absMetaFile, metaFileSize, error);
         remove = true;
@@ -861,7 +861,7 @@ GLKVector4 getIntrinsicsFromGlProj(const GLKMatrix4& matrix, unsigned int width,
     NSString *absImuFile = [NSString stringWithUTF8String:(curFilePrefix + ".h264").c_str()];
     NSString *imuFileSize = [NSString stringWithFormat:@"%llu",
                               [[[NSFileManager defaultManager] attributesOfItemAtPath:absImuFile error:&error] fileSize]];
-    if (!(imuFileSize > 0) || error)
+    if (!imuFileSize || error)
     {
         NSLog(@"imu file %@, size %@, error: %@", absImuFile, imuFileSize, error);
         remove = true;
