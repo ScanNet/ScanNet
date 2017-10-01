@@ -1,0 +1,70 @@
+{
+	"stages": [
+		{
+			"name": "upload",
+			"output": [ "${id}.h264", "${id}.txt", "${id}.depth", "${id}.imu" ],
+			"optional": true
+		},
+		{
+			"name": "convert",
+			"input": [ "${id}.h264", "${id}.txt", "${id}.depth", "${id}.imu" ],
+			"output": [ "${id}.uncalibrated.sens", "${id}.sens" ],
+			"outputCheck": "any"
+		},
+		{
+			"name": "calibrate",
+			"input": [ "${id}.uncalibrated.sens" ],
+			"output": [ "${id}.sens" ]
+		},
+		{
+			"name": "recons",
+			"input": [ "${id}.sens" ],
+			"output": [ "${id}.ply" ],
+			"checks": { "valid": "true" } 
+		},
+		{
+			"name": "clean",
+			"substeps": 2,
+			"input": [ "${id}.ply" ],
+			"output": [ "${id}.ply" ],
+			"checks": { "aligned": "true" }
+		},
+		{
+			"name": "improve",
+			"input": [ "${id}.sens" ],
+			"output": [ "${id}_vh.ply" ]
+		},
+		{
+			"name": "decimate",
+			"substeps": 3,
+			"input": [ "${id}_vh.ply" ],
+			"output": [ "${id}_vh_clean.ply", "${id}_vh_clean_1.ply", "${id}_vh_clean_2.ply" ]
+		},
+		{
+			"name": "freespace",
+			"input": [ "${id}.sens" ],
+			"output": [ "${id}.grid" ]
+		},
+		{
+			"name": "segment",
+			"input": [ "${id}_vh_clean_2.ply" ],
+			"output": [ "${id}_vh_clean_2.0.000100.segs.json", "${id}_vh_clean_2.0.001000.segs.json", "${id}_vh_clean_2.0.010000.segs.json" ]
+		},
+		{
+			"name": "render",
+			"input": [ "${id}_vh_clean_2.ply" ],
+			"output": [ "${id}_vh_clean_2.png" ]
+		},
+		{
+			"name": "thumbnail",
+			"input": [ "${id}_vh_clean_2.png" ],
+			"output": [ "${id}_vh_clean_2_thumb.png" ]
+		},
+		{
+			"name": "annotation",
+			"input": [ "${id}_vh_clean_2.0.010000.segs.json" ],
+			"output": [ "${id}.aggregation.json" ],
+			"optional": true
+		}
+	]
+}
