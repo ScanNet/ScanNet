@@ -40,7 +40,7 @@ numIMUmeasurements = 4185
 ```
 
 **Depth data (`*.depth`)**:
-Compressed stream of depth frames from Structure.io sensor.  Please refer to the [Converter](../Converter) code for parsing.
+Compressed stream of depth frames from Structure.io sensor.  Please refer to the [depth2pgm](depth2pgm) code for an example of how to parse the data.
 
 **Color data (`*.h264`)**:
 An H.264 encoded stream of color frames from the iPad camera.  Can be converted to sequences of images using ffmpeg through commands such as: `ffmpeg -i id.h264 %6d.color.png`.
