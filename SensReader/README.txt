@@ -51,5 +51,5 @@ Useful functions in sensorData.h:
 ================================================================
 Notes:
 	The invalid poses are marked with -inf values. They are result of lost tracking.
-	Subsequen poses can be trusted, as they are result of global alignment in BundleFusion[Dai et al.] 
-	algorithm.
+	Subsequen poses can be trusted, as they are result of global alignment in 
+	BundleFusion[Dai et al.] algorithm.
