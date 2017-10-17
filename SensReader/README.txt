@@ -48,3 +48,8 @@ Useful functions in sensorData.h:
 	IMUFrame f = sd.findClosestIMUFrame(frameIdx);
 	mat4f pose = sd.m_frames[frameIdx].getCameraToWorld();
 	
+================================================================
+Notes:
+	The invalid poses are marked with -inf values. They are result of lost tracking.
+	Subsequen poses can be trusted, as they are result of global alignment in BundleFusion[Dai et al.] 
+	algorithm.
