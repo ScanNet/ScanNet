@@ -1,0 +1,16 @@
+
+s_scanDir = "../../data/scans/scene0000_00/";
+s_outDir = "output/";			
+s_outputDebugImages = false; 	//output color images for visualization
+s_labelMappingFile = "../../data/tasks/scannet-labels.combined.tsv";
+s_useHiResMesh = true;			//propagate annotations to hi-res mesh before projection
+s_filterUsingOrigialDepthImage = false  	// remove label projections corresponding to invalid depth in original depth image	
+
+
+s_frameSkip = 1;
+
+s_depthMin = 0.1f; //meters
+s_depthMax = 15.0f; //meters
+s_depthDistThresh = 0.2f; //meters
+s_propagateNormalThresh = 0.5f; //radians
+
