@@ -82,9 +82,10 @@ Compressed binary format with per-frame color, depth, camera pose and other data
 Projection of 3d aggregated annotation of a scan into its RGB-D frames, according to the computed camera trajectory. 
 
 ### ScanNet C++ Toolkit
-Tools for working with ScanNet data.
+Tools for working with ScanNet data. [SensReader](SensReader) loads the ScanNet `.sens` data of compressed RGB-D frames, camera intrinsics and extrinsics, and IMU data.
 
-* [SensReader](SensReader) loads the ScanNet `.sens` data of compressed RGB-D frames, camera intrinsics and extrinsics, and IMU data.
+### Mesh Segmentation Code
+Mesh supersegment computation code which we use to preprocess meshes and prepare for semantic annotation. Refer to [Segmentator](Segmentator) directory for building and using code.
 
 ## BundleFusion Reconstruction Code
 
@@ -99,12 +100,10 @@ ScanNet uses the [BundleFusion](https://github.com/niessner/BundleFusion) code f
 ```
 
 ## ScanNet Scanner iPad App
-
-* [ScannerApp](ScannerApp) is designed for easy capture of RGB-D sequences using an iPad with attached Structure.io sensor.
+[ScannerApp](ScannerApp) is designed for easy capture of RGB-D sequences using an iPad with attached Structure.io sensor.
 
 ## ScanNet Scanner Data Server
-
-* [Server](Server) contains the server code that receives RGB-D sequences from iPads running the Scanner app.
+[Server](Server) contains the server code that receives RGB-D sequences from iPads running the Scanner app.
 
 ## Benchmark Tasks
 We provide code for several scene understanding benchmarks on ScanNet:
