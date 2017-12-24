@@ -86,6 +86,18 @@ Tools for working with ScanNet data.
 
 * [SensReader](SensReader) loads the ScanNet `.sens` data of compressed RGB-D frames, camera intrinsics and extrinsics, and IMU data.
 
+## BundleFusion Reconstruction Code
+
+ScanNet uses the [BundleFusion](https://github.com/niessner/BundleFusion) code for reconstruction. Please refer to the BundleFusion repository at https://github.com/niessner/BundleFusion . If you use BundleFusion, please cite the original paper:
+```
+@article{dai2017bundlefusion,
+  title={BundleFusion: Real-time Globally Consistent 3D Reconstruction using On-the-fly Surface Re-integration},
+  author={Dai, Angela and Nie{\ss}ner, Matthias and Zoll{\"o}fer, Michael and Izadi, Shahram and Theobalt, Christian},
+  journal={ACM Transactions on Graphics 2017 (TOG)},
+  year={2017}
+}
+```
+
 ## ScanNet Scanner iPad App
 
 * [ScannerApp](ScannerApp) is designed for easy capture of RGB-D sequences using an iPad with attached Structure.io sensor.
