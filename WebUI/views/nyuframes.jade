@@ -1,0 +1,42 @@
+extends layouts/datatable
+
+block title
+  title= "ScanNet NYU Frames"
+
+block body
+  div
+    h1 NYU Frames
+    a.btn.btn-primary.btn-lg(href='/scans/browse/nyu', role='button', title='Show all scans') Scans
+  hr
+  div
+    span#lastModified
+  table#resultTable(style='visibility: hidden')
+    thead
+      tr
+        th id
+        th scene
+        th frame
+        th reconCoverage
+        th labelCoverage
+        th image
+        th nyu
+        th ours
+        th actions
+    tfoot
+      tr
+        th id
+        th scene
+        th frame
+        th reconCoverage
+        th labelCoverage
+        th image
+        th nyu
+        th ours
+        th actions
+    tbody
+
+block footer
+  script(src="//cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.2/papaparse.min.js")
+  script(src="/js/nyuframes.js")
+  script(type="text/javascript").
+    initResultTable({ auth: new Auth() });

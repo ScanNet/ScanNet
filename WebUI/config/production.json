@@ -1,0 +1,19 @@
+{
+  "host": "ScanNet-app.feathersjs.com",
+  "port": 80,
+  "nedb": "NEDB_BASE_PATH",
+  "public": "../public/",
+  "auth": {
+    "token": {
+      "secret": "FEATHERS_AUTH_SECRET"
+    },
+    "local": {},
+    "github": {
+      "clientID": "your github client id",
+      "clientSecret": "your github client secret",
+      "permissions": {
+        "scope": []
+      }
+    }
+  }
+}

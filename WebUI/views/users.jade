@@ -1,0 +1,44 @@
+extends layouts/datatable
+
+block title
+  title= "ScanNet Users"
+
+block body
+  div
+    h1 Users
+    div.btn-group
+      button.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
+        | Show
+        span.caret
+      ul.dropdown-menu(role='menu')
+        li
+          a(href='/scans/users') All
+        li
+          a(href='/scans/users?group=checked') Checked
+        li
+          a(href='/scans/users?group=staging') Staging
+  hr
+  div#loadingMessage Loading...
+  table#resultTable(style='visibility: hidden')
+    thead
+      tr
+        th name
+        th scans
+        th actions
+    tfoot
+      tr
+        th name
+        th scans
+        th actions
+    tbody
+      each user in users
+        tr
+          td #{user.name}
+          td #{user.scans.length}
+          td
+            a.btn.btn-primary(href='/scans/manage?userName=#{user.name}', role='button', title="View scans") Scans
+
+block footer
+  script(src="/js/users.js")
+  script(type="text/javascript").
+    initResultTable({});

@@ -1,0 +1,116 @@
+extends layouts/datatable
+
+block head
+  link(rel='stylesheet', href='//cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/css/selectize.css')
+  link(rel='stylesheet', href='/vendor/datatables.editor/css/editor.dataTables.min.css')
+  link(rel='stylesheet', href='/vendor/datatables.editor/css/editor.selectize.css')
+
+block body
+  div
+    if processView || manageView
+      a.btn.btn-primary.btn-lg(href='#', role='button', id='reindexBtn') Reindex
+    if processView
+      a.btn.btn-primary.btn-lg(href='/scans/manage', role='button', title='Show all scans') All
+      a.btn.btn-primary.btn-lg.pull-right(href='#', role='button', id='clearProgressQueueBtn') Clear
+      if processQueue.isPaused
+        a.btn.btn-success.btn-lg.pull-right(href='#', role='button', id='pauseResumeBtn', data-action='resume', title='Resume processing') Resume
+      else
+        a.btn.btn-warning.btn-lg.pull-right(href='#', role='button', id='pauseResumeBtn',  data-action='pause', title='Pause processing') Pause
+    else if manageView
+      a.btn.btn-primary.btn-lg(href='/scans/process', role='button', title='Show scans queued for processing') Queued
+
+    if nyu
+      a.btn.btn-primary.btn-lg(href='/scans/browse/nyu/frames', role='button', title='Show scans by device') Frames
+
+    if manageView
+      div.btn-group.pull-right
+        button.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
+          | Show
+          span.caret
+        ul.dropdown-menu(role='menu')
+          li
+            a(href='/scans/manage') All
+          li
+            a(href='/scans/manage?group=checked') Checked
+          li
+            a(href='/scans/manage?group=staging') Staging
+          li
+            a(href='/scans/manage?group=staging&subgroup[$exists]=false') Staging - No subgroup
+          li
+            a(href='/scans/manage?group=staging&subgroup[$exists]=true') Staging - Subgrouped
+  hr
+  div#loadingMessage Loading...
+  table#resultTable(style='visibility: hidden')
+    thead
+      tr
+        th video
+        th preview
+        th id
+        th createdAt
+        th updatedAt
+        th frames
+        th scanSecs
+        th processSecs
+        th objects
+        th labels
+        th floorArea
+        th floorAreaFilled
+        th floorAreaRatio
+        th device
+        th user
+        th name
+        th type
+        th group
+        th subgroup
+        th progress
+        th tags
+        th vertices
+        th % annotated
+        th actions
+    tfoot
+      tr
+        th video
+        th preview
+        th id
+        th createdAt
+        th updatedAt
+        th frames
+        th scanSecs
+        th processSecs
+        th objects
+        th labels
+        th device
+        th floorArea
+        th floorAreaFilled
+        th floorAreaRatio
+        th user
+        th name
+        th type
+        th group
+        th subgroup
+        th progress
+        th tags
+        th vertices
+        th % annotated
+        th actions
+    tbody
+
+block footer
+    script(src="//cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/js/standalone/selectize.js")
+    script(src="/vendor/datatables.editor/js/dataTables.editor.min.js")
+    script(src="/vendor/datatables.editor/js/editor.selectize.js")
+    script(type="text/javascript").
+      var processView = !{JSON.stringify(processView || false)};
+      var allowEdit = !{JSON.stringify(manageView || false)};
+      var isNYU = !{JSON.stringify(nyu || false)};
+      var scans = !{JSON.stringify(scans.map( function(x) { return _.omit(x, ['files']); }))};
+    script(src="/js/download.js")
+    script(src="/js/process.js")
+    if scans.length === total
+      script(src="/js/manage-ajax.js")
+      script(type="text/javascript").
+        initResultTable({ serverSide: false, data: scans, allowEdit: allowEdit, auth: new Auth() });
+    else
+      script(src="/js/manage-ajax.js")
+      script(type="text/javascript").
+        initResultTable({ serverSide: true, allowEdit: allowEdit, auth: new Auth() });

@@ -1,0 +1,42 @@
+extends layouts/datatable
+
+block title
+  title= "ScanNet Devices"
+
+block body
+  div
+    h1 Devices
+    div.btn-group
+      button.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
+        | Show
+        span.caret
+      ul.dropdown-menu(role='menu')
+        li
+          a(href='/scans/devices/id') All
+        li
+          a(href='/scans/devices/id?group=checked') Checked
+        li
+          a(href='/scans/devices/id?group=staging') Staging
+  hr
+  div#loadingMessage Loading...
+  table#resultTable(style='visibility: hidden')
+    thead
+      tr
+        th id
+        th name
+        th scans
+        th actions
+    tfoot
+      tr
+        th id
+        th name
+        th scans
+        th actions
+    tbody
+
+block footer
+  script(type="text/javascript").
+    var devices = !{JSON.stringify(devices)};
+  script(src="/js/devicesById.js")
+  script(type="text/javascript").
+    initResultTable({ data: devices });
