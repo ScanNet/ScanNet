@@ -105,6 +105,9 @@ ScanNet uses the [BundleFusion](https://github.com/niessner/BundleFusion) code f
 ## ScanNet Scanner Data Server
 [Server](Server) contains the server code that receives RGB-D sequences from iPads running the Scanner app.
 
+## ScanNet Semantic Annotation Tools
+Code and documentation for the ScanNet semantic annotation web-based interfaces is provided as part of the [SSTK](https://github.com/smartscenes/sstk) library. Please refer to https://github.com/smartscenes/sstk/wiki/Scan-Annotation-Pipeline for an overview.
+
 ## Benchmark Tasks
 We provide code for several scene understanding benchmarks on ScanNet:
 * 3D object classification
