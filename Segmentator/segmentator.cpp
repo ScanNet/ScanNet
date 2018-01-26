@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <unordered_set>
 
 #include "tinyply.h"
 
@@ -120,7 +121,11 @@ vector<int> segment(const string& plyFile, const float kthr, const int segMinVer
   vector<float> verts;
   const size_t vertexCount = file.request_properties_from_element("vertex", { "x", "y", "z" }, verts);
   vector<uint32_t> faces;
-  const size_t faceCount = file.request_properties_from_element("face", { "vertex_indices" }, faces, 3);
+  // Try getting vertex_indices or vertex_index
+  size_t faceCount = file.request_properties_from_element("face", { "vertex_indices" }, faces, 3);
+  if (faceCount == 0) {
+    faceCount = file.request_properties_from_element("face", { "vertex_index" }, faces, 3);
+  }
   file.read(ss);
 
   // create points, normals, edges, counts vectors
@@ -130,6 +135,7 @@ vector<int> segment(const string& plyFile, const float kthr, const int segMinVer
   const size_t edgesCount = faceCount*3;
   edge* edges = new edge[edgesCount];
 
+  printf("Read ply with vertexCount %lu, faceCount %lu\n", vertexCount, faceCount);
   // Compute face normals and smooth into vertex normals
   for (int i = 0; i < faceCount; i++) {
     const int fbase = 3*i;
@@ -224,11 +230,15 @@ int main(int argc, const char** argv) {
     const int segMinVerts = argc > 3 ? atoi(argv[3]) : 20;
     printf("Segmenting %s with kThresh=%f, segMinVerts=%d ...\n", plyFile.c_str(), kthr, segMinVerts);
     const vector<int> comps = segment(plyFile, kthr, segMinVerts);
+    std::unordered_set<int> comp_indices;
+    for (int i = 0; i < comps.size(); i++) {
+      comp_indices.insert(comps[i]);
+    }  
     const string baseName = plyFile.substr(0, plyFile.find_last_of("."));
     const int lastslash = plyFile.find_last_of("/");
     const string scanId = lastslash > 0 ? baseName.substr(lastslash) : baseName;
     string segFile = baseName + "." + std::to_string(kthr) + ".segs.json";
     writeToJSON(segFile, scanId, kthr, segMinVerts, comps);
-    printf("Segmentation written to %s\n", segFile.c_str());
+    printf("Segmentation written to %s with %lu segments\n", segFile.c_str(), comp_indices.size());
   }
 }
