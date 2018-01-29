@@ -41,7 +41,7 @@ The following are overviews of the data formats used in ScanNet:
 Binary PLY format mesh with +Z axis in upright orientation.
 
 **RGB-D sensor stream (`*.sens`)**:
-Compressed binary format with per-frame color, depth, camera pose and other data.  See [ScanNet C++ Toolkit](#scannet-c-toolkit) for more information and parsing code.
+Compressed binary format with per-frame color, depth, camera pose and other data.  See [ScanNet C++ Toolkit](#scannet-c-toolkit) for more information and parsing code. See [SensReader/python](SensReader/python) for a very basic python data exporter.
 
 **Surface mesh segmentation file (`*.segs.json`)**:
 ```javascript
