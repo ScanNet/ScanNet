@@ -89,7 +89,7 @@ class SensorData:
     print 'exporting', len(self.frames), 'color frames to', output_path
     for f in range(len(self.frames)):
       color = self.frames[f].decompress_color(self.color_compression_type)
-      imageio.imwrite(os.path.join(output_path, str(f) + '.png'), color)
+      imageio.imwrite(os.path.join(output_path, str(f) + '.jpg'), color)
 
 
   def save_mat_to_file(self, matrix, filename):
