@@ -6,7 +6,8 @@ Example to decode .sens files:
 - metadata output in _info.txt (includes intrinsics, etc.)
 - IMU data is not saved out (it's stored in m_IMUFrames)
 
-run ./sens <sensFile> <outputDir>
+Run:
+./sens <sensFile> <outputDir>
 
 Hint: 	keep the sens files as they are a nice represention
 		see processFrame(..) to decode independent frames
@@ -47,3 +48,8 @@ Useful functions in sensorData.h:
 	IMUFrame f = sd.findClosestIMUFrame(frameIdx);
 	mat4f pose = sd.m_frames[frameIdx].getCameraToWorld();
 	
+================================================================
+Notes:
+	The invalid poses are marked with -inf values. They are result of lost tracking.
+	Subsequen poses can be trusted, as they are result of global alignment in 
+	BundleFusion[Dai et al.] algorithm.

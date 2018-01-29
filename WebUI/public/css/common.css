@@ -1,0 +1,129 @@
+/* MAIN UI */
+
+html * {
+  font-family: 'Open Sans', sans-serif;
+}
+
+body {
+  background-color: transparent;
+  margin: 0;
+  overflow: hidden;
+}
+
+#sidebar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 23%;
+  height: 100%;
+  min-height: 100%;
+}
+
+#main {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 75%;
+  height: 100%;
+}
+
+#canvas {
+  position: absolute;
+  overflow: hidden;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+}
+
+#canvas:focus {
+  outline: none;
+}
+
+.grayBackground {
+  background-color: gainsboro;
+}
+
+.roundBorder {
+  -moz-border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+  border-radius: 8px;
+}
+
+#instructionsPanel {
+  position: absolute;
+  top: 30px;
+  left: 20px;
+  padding: 5px;
+  cursor: pointer;
+  opacity: 0.8;
+  z-index: 1;
+  border: thin solid #A5A5A5;
+}
+
+/* Pagination stuff */
+
+.pagination a {
+  text-decoration: none;
+  border: solid 1px #AAE;
+}
+
+.pagination a, .pagination span {
+  display: block;
+  float: left;
+  padding: 0.1em 0.2em;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  min-width: 0.5em;
+  text-align: center;
+}
+
+.pagination .current {
+  background: #26B;
+  color: #fff;
+  border: solid 1px #AAE;
+}
+
+.pagination .current.prev, .pagination .current.next {
+  color: #999;
+  border-color: #999;
+  background: #fff;
+}
+
+.highlight {
+  background-color: #FFFF88;
+}
+
+.btn-file {
+  position: relative;
+  overflow: hidden;
+}
+.btn-file input[type=file] {
+  position: absolute;
+  top: 0;
+  right: 0;
+  min-width: 100%;
+  min-height: 100%;
+  font-size: 100px;
+  text-align: right;
+  filter: alpha(opacity=0);
+  opacity: 0;
+  outline: none;
+  background: white;
+  cursor: inherit;
+  display: block;
+}
+
+.helpicon {
+  cursor: default;
+  float: right;
+  color: silver;
+}
+
+input[readonly] {
+  background-color: white !important;
+  cursor: text !important;
+}

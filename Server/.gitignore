@@ -1,0 +1,11 @@
+*.iml
+
+# virtualenv
+bin/
+include/
+lib/
+local/
+.Python
+
+# python
+*.pyc

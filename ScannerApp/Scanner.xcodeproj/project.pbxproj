@@ -151,6 +151,7 @@
 		953997C11DAAE32500B43366 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		9591B5211E888E80005863DD /* Structure.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Structure.framework; path = Frameworks/Structure.framework; sourceTree = "<group>"; };
 		9591B5231E888EA6005863DD /* GPUImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = GPUImage.xcodeproj; path = Frameworks/GPUImage/framework/GPUImage.xcodeproj; sourceTree = "<group>"; };
+		95F123031F44E60700265C89 /* Config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
 		B60CC1BC1CFD5BB500EA51F4 /* toggleDepth.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = toggleDepth.png; sourceTree = "<group>"; };
 		B60CC1BE1CFE2FCD00EA51F4 /* toggleAWB.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = toggleAWB.png; sourceTree = "<group>"; };
 		B631B4521D6637F10064FB0D /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
@@ -259,6 +260,7 @@
 				6F03CB5F1862832600518C22 /* EAGLView.mm */,
 				1F300614186E3B8F00405D34 /* Images.xcassets */,
 				433C3B9D186CBEA900552A10 /* Supporting Files */,
+				95F123031F44E60700265C89 /* Config.h */,
 			);
 			path = Scanner;
 			sourceTree = SOURCE_ROOT;

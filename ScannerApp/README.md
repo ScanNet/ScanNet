@@ -8,7 +8,7 @@ The scanner app acquires RGB-D scans using a [structure.io sensor](https://struc
 
 ## Build
 - Open Scanner.xcodeproj with Xcode
-- Set the URL to the data upload server at the top of `Scanner/ViewController.h`
+- Set the URL to the data upload server at the top of `Scanner/Config.h`
 - Attach your iOS device and authorize the development machine to build to the device
 - Build the Scanner target for your device (select "Scanner" and your attached device name at the top left next to the "play" icon, and click the "play" icon)
 - Detach the device from the development machine, attach the structure sensor to the device, and run the Scanner app
@@ -40,7 +40,7 @@ numIMUmeasurements = 4185
 ```
 
 **Depth data (`*.depth`)**:
-Compressed stream of depth frames from Structure.io sensor.  Please refer to the [Converter](../Converter) code for parsing.
+Compressed stream of depth frames from Structure.io sensor.  Please refer to the [depth2pgm](depth2pgm) code for an example of how to parse the data.
 
 **Color data (`*.h264`)**:
 An H.264 encoded stream of color frames from the iPad camera.  Can be converted to sequences of images using ffmpeg through commands such as: `ffmpeg -i id.h264 %6d.color.png`.
@@ -51,24 +51,23 @@ Stream of iPad camera settings containing exposure information.  TODO: Format de
 **IMU data (`*.imu`)**:
 IMU data is a raw binary format consisting of:
 ```
-[8-byte Start time since 1970 in MS represented in double precision IEEE 754 little-endian]
---- Repeats 53 times per second ---
-[8-byte capture time since 1970 in MS represented in double precision IEEE 754 little-endian]
-[8-byte roll (Radians, double)]
-[8-byte pitch (Radians, double)]
-[8-byte yaw (Radians, double)]
-[8-byte x rotation (Radians/s, double, RHR)]
-[8-byte y rotation (Radians/s, double, RHR)]
-[8-byte z rotation (Radians/s, double, RHR)]
-[8-byte x gravity vector (G, double, device's reference frame)]
-[8-byte y gravity vector (G, double, device's reference frame)]
-[8-byte z gravity vector (G, double, device's reference frame)]
+--- Repeats approx. 53 times per second ---
+[8-byte capture device up-time sec. represented in double precision IEEE 754 little-endian]
+[8-byte x rotation rate (Radians/s, double, RHR)]
+[8-byte y rotation rate (Radians/s, double, RHR)]
+[8-byte z rotation rate (Radians/s, double, RHR)]
 [8-byte x user-caused acceleration vector (G, double, device's reference frame)]
 [8-byte y user-caused acceleration vector (G, double, device's reference frame)]
 [8-byte z user-caused acceleration vector (G, double, device's reference frame)]
 [8-byte x magnetic field (microtesla, double)]
 [8-byte y magnetic field (microtesla, double)]
 [8-byte z magnetic field (microtesla, double)]
+[8-byte roll (Radians, double)]
+[8-byte pitch (Radians, double)]
+[8-byte yaw (Radians, double)]
+[8-byte x gravity vector (G, double, device's reference frame)]
+[8-byte y gravity vector (G, double, device's reference frame)]
+[8-byte z gravity vector (G, double, device's reference frame)]
 ----- REPEAT ------
 ```
 For more information about the IMU data refer to the iOS (CMDeviceMotion API)[https://developer.apple.com/library/prerelease/ios/documentation/CoreMotion/Reference/CMDeviceMotion_Class/index.html].

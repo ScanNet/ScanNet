@@ -20,6 +20,18 @@ The data in ScanNet is organized by RGB-D sequence. Each sequence is stored unde
     Over-segmentation of annotation mesh
 |-- <scanId>.aggregation.json
     Aggregated instance-level semantic annotations
+|-- <scanId>_vh_clean.segs.json, <scanId>_vh_clean.aggregation.json
+    Aggregated instance-level semantic annotations on hi-res mesh
+|-- <scanId>_vh_clean_2.labels.ply
+    Visualization of aggregated semantic segmentation; colored by nyu40 labels (see img/legend; ply property 'label' denotes the ScanNet label id)
+|-- <scanId>_2d-label.zip
+    Raw 2d projections of aggregated annotation labels as 16-bit pngs with ScanNet label ids
+|-- <scanId>_2d-instance.zip
+    Raw 2d projections of aggregated annotation instances as 8-bit pngs
+|-- <scanId>_2d-label-filt.zip
+    Filtered 2d projections of aggregated annotation labels as 16-bit pngs with ScanNet label ids
+|-- <scanId>_2d-instance-filt.zip
+    Filtered 2d projections of aggregated annotation instances as 8-bit pngs
 ```
 
 ### Data Formats
@@ -66,15 +78,38 @@ Compressed binary format with per-frame color, depth, camera pose and other data
 }
 ```
 
-### ScanNet C++ Toolkit
-Tools for working with ScanNet data.
+**2d annotation projections (`*_2d-label.zip`, `*_2d-instance.zip`, `*_2d-label-filt.zip`, `*_2d-instance-filt.zip`)**:
+Projection of 3d aggregated annotation of a scan into its RGB-D frames, according to the computed camera trajectory. 
 
-* [SensReader](SensReader) loads the ScanNet `.sens` data of compressed RGB-D frames, camera intrinsics and extrinsics, and IMU data.
+### ScanNet C++ Toolkit
+Tools for working with ScanNet data. [SensReader](SensReader) loads the ScanNet `.sens` data of compressed RGB-D frames, camera intrinsics and extrinsics, and IMU data.
+
+### Mesh Segmentation Code
+Mesh supersegment computation code which we use to preprocess meshes and prepare for semantic annotation. Refer to [Segmentator](Segmentator) directory for building and using code.
+
+## BundleFusion Reconstruction Code
+
+ScanNet uses the [BundleFusion](https://github.com/niessner/BundleFusion) code for reconstruction. Please refer to the BundleFusion repository at https://github.com/niessner/BundleFusion . If you use BundleFusion, please cite the original paper:
+```
+@article{dai2017bundlefusion,
+  title={BundleFusion: Real-time Globally Consistent 3D Reconstruction using On-the-fly Surface Re-integration},
+  author={Dai, Angela and Nie{\ss}ner, Matthias and Zoll{\"o}fer, Michael and Izadi, Shahram and Theobalt, Christian},
+  journal={ACM Transactions on Graphics 2017 (TOG)},
+  year={2017}
+}
+```
 
 ## ScanNet Scanner iPad App
+[ScannerApp](ScannerApp) is designed for easy capture of RGB-D sequences using an iPad with attached Structure.io sensor.
 
-* [ScannerApp](ScannerApp) is designed for easy capture of RGB-D sequences using an iPad with attached Structure.io sensor.
+## ScanNet Scanner Data Server
+[Server](Server) contains the server code that receives RGB-D sequences from iPads running the Scanner app.
 
+## ScanNet Data Management UI
+[WebUI](WebUI) contains the web-based data management UI used for providing an overview of available scan data and controlling the processing and annotation pipeline.
+
+## ScanNet Semantic Annotation Tools
+Code and documentation for the ScanNet semantic annotation web-based interfaces is provided as part of the [SSTK](https://github.com/smartscenes/sstk) library. Please refer to https://github.com/smartscenes/sstk/wiki/Scan-Annotation-Pipeline for an overview.
 
 ## Benchmark Tasks
 We provide code for several scene understanding benchmarks on ScanNet:
@@ -82,8 +117,12 @@ We provide code for several scene understanding benchmarks on ScanNet:
 * 3D object retrieval
 * Semantic voxel labeling
 
+Label mappings and trained models can be downloaded with the ScanNet data release.
+
 See [Tasks](Tasks).
 
+### Labels
+The label mapping file (`scannet-labels.combined.tsv`) in the ScanNet task data release contains mappings from the labels provided in the ScanNet annotations (`id`) to the object category sets of [NYUv2](http://cs.nyu.edu/~silberman/datasets/nyu_depth_v2.html), [ModelNet](http://modelnet.cs.princeton.edu/), [ShapeNet](https://www.shapenet.org/), and [WordNet](https://wordnet.princeton.edu/) synsets. Download with along with the task data (`--task_data`) or by itself (`--label_map`).
 
 ## Citation
 If you use the ScanNet data or code please cite:
@@ -102,7 +141,7 @@ If you have any questions, please contact us at scannet@googlegroups.com
 
 ## Changelog
 
-
 ## License
-The data is released under a <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 License</a>.  
+The data is released under the [ScanNet Terms of Use](http://dovahkiin.stanford.edu/scannet-public/ScanNet_TOS.pdf), and the code is released under the MIT license.
+
 Copyright (c) 2017

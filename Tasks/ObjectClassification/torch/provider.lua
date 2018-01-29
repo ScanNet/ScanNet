@@ -23,11 +23,15 @@ function jitter_chunk(src,jitter)
     return dst
 end
 
+function trim(s)
+    return (s:gsub("^%s*(.-)%s*$", "%1"))
+end
+
 -- read h5 filename list
 function getDataFiles(input_file)
     local train_files = {}
     for line in io.lines(input_file) do
-        train_files[#train_files+1] = line
+        train_files[#train_files+1] = trim(line)
     end
     return train_files
 end

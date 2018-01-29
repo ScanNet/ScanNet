@@ -1,0 +1,3 @@
+[submodule "external/mLib"]
+	path = external/mLib
+	url = https://github.com/niessner/mLib

@@ -1,0 +1,26 @@
+{
+  "source": "scan-staging",
+  "assetType": "model",
+  "rootPath": "<DATA_DIR>/scans/staging",
+  "screenShotPath": "${rootPath}/${path}/${id}_vh_clean_2.png",
+  "hasThumbnails": true,
+  "video": "${rootPath}/${path}/${id}.mp4",
+  "trajectory": "${rootPath}/${path}/${id}.traj.json",
+  "voxels-labeled": "<DATA_DIR>/voxelizations/vox/${id}.vox",
+  "formats": [
+    {
+      "format": "ply",
+      "path": "${rootPath}/${path}/${id}_vh_clean_2.ply",
+      "defaultUp": [ 0, 0, 1 ], "defaultFront": [ 0, -1, 0], "defaultUnit": 1,
+      "useVertexColors": true,
+      "computeNormals": true
+    }
+  ],
+  "surfaces": {
+    "format": "segmentGroups",
+    "files": {
+        "segmentGroups": "${rootPath}/${path}/${id}.aggregation.json",
+        "segments": "${rootPath}/${path}/${id}_vh_clean_2.0.010000.segs.json"
+    }
+  }
+}

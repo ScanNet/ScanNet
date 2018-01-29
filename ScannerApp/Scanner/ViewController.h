@@ -14,9 +14,8 @@
 #include <string>
 #include <vector>
 
-#define DEBUG_MODE
+#import "Config.h"
 
-#define SERVER "http://dovahkiin.stanford.edu"
 
 struct Options //TODO get rid of mesh view/tracking params
 {
