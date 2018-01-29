@@ -1,7 +1,7 @@
 # Data Exporter
 
 Usage:
-```python
+```
 python reader.py --filename [.sens file to export data from] --output_path [output directory to export data to]
 Options:
 --export_depth_images: export all depth frames as 16-bit pngs (depth shift 1000)
