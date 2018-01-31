@@ -155,21 +155,24 @@ vector<int> segment(const string& meshFile, const float kthr, const int segMinVe
       std::cerr << "Warning: only single mesh OBJ supported, segmenting first mesh" << std::endl;
     }
 
-    const auto& mesh = shapes[0].mesh;
+    // Keep with original vertices (we don't want them duplicated)
     vertexCount = attrib.vertices.size() / 3;
+    for (size_t v = 0; v < attrib.vertices.size(); v++) {
+      verts.push_back(attrib.vertices[v]);
+    }
+
+    const auto& mesh = shapes[0].mesh;
     faceCount = mesh.num_face_vertices.size();
     for (size_t f = 0; f < faceCount; f++) {
       for (size_t v = 0; v < 3; v++) {
         const size_t idx = mesh.indices[3 * f + v].vertex_index;
-        verts.push_back(attrib.vertices[3 * idx + 0]);
-        verts.push_back(attrib.vertices[3 * idx + 1]);
-        verts.push_back(attrib.vertices[3 * idx + 2]);
         faces.push_back(idx);
       }
     }
   }
 
-  printf("Read mesh with vertexCount %lu, faceCount %lu\n", vertexCount, faceCount);
+  printf("Read mesh with vertexCount %lu %lu, faceCount %lu %lu\n", 
+    vertexCount, verts.size(), faceCount, faces.size());
 
   // create points, normals, edges, counts vectors
   vector<vec3f> points(vertexCount);
