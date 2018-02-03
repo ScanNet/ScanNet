@@ -5,6 +5,8 @@
 #include <vector>
 #include <unordered_set>
 
+#define TINYOBJLOADER_IMPLEMENTATION
+#include "tiny_obj_loader.h"
 #include "tinyply.h"
 
 using std::vector;
@@ -113,20 +115,64 @@ vec3f lerp(const vec3f& a, const vec3f& b, const float v) {
   return vec3f(v*b.x + u*a.x, v*b.y + u*a.y, v*b.z + u*a.z);
 }
 
-vector<int> segment(const string& plyFile, const float kthr, const int segMinVerts) {
-  // Load the geometry from .ply
-  //std::cout << "Loading mesh " << plyFile << std::endl;
-  std::ifstream ss(plyFile, std::ios::binary);
-  tinyply::PlyFile file(ss);
+inline bool ends_with(const std::string & value, const std::string& ending) {
+  if (ending.size() > value.size()) { return false; }
+  return std::equal(ending.rbegin(), ending.rend(), value.rbegin());
+}
+
+vector<int> segment(const string& meshFile, const float kthr, const int segMinVerts) {
+  //std::cout << "Loading mesh " << meshFile << std::endl;
   vector<float> verts;
-  const size_t vertexCount = file.request_properties_from_element("vertex", { "x", "y", "z" }, verts);
   vector<uint32_t> faces;
-  // Try getting vertex_indices or vertex_index
-  size_t faceCount = file.request_properties_from_element("face", { "vertex_indices" }, faces, 3);
-  if (faceCount == 0) {
-    faceCount = file.request_properties_from_element("face", { "vertex_index" }, faces, 3);
+  size_t vertexCount = 0;
+  size_t faceCount = 0;
+
+  if (ends_with(meshFile, ".ply") || ends_with(meshFile, ".PLY")) {
+    // Load the geometry from .ply
+    std::ifstream ss(meshFile, std::ios::binary);
+    tinyply::PlyFile file(ss);
+    vertexCount = file.request_properties_from_element("vertex", { "x", "y", "z" }, verts);
+    // Try getting vertex_indices or vertex_index
+    faceCount = file.request_properties_from_element("face", { "vertex_indices" }, faces, 3);
+    if (faceCount == 0) {
+      faceCount = file.request_properties_from_element("face", { "vertex_index" }, faces, 3);
+    }
+    file.read(ss);
+  } else if (ends_with(meshFile, ".obj") || ends_with(meshFile, ".OBJ")) {
+    // Load the geometry from .obj
+    tinyobj::attrib_t attrib;
+    vector<tinyobj::shape_t> shapes;
+    vector<tinyobj::material_t> materials;
+    string err;
+    bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &err, meshFile.c_str(), NULL, false);
+    if (!err.empty()) { // `err` may contain warning message.
+      std::cerr << err << std::endl;
+    }
+    if (!ret) {
+      exit(1);
+    }
+    if (shapes.size() > 1) {
+      std::cerr << "Warning: only single mesh OBJ supported, segmenting first mesh" << std::endl;
+    }
+
+    // Keep with original vertices (we don't want them duplicated)
+    vertexCount = attrib.vertices.size() / 3;
+    for (size_t v = 0; v < attrib.vertices.size(); v++) {
+      verts.push_back(attrib.vertices[v]);
+    }
+
+    const auto& mesh = shapes[0].mesh;
+    faceCount = mesh.num_face_vertices.size();
+    for (size_t f = 0; f < faceCount; f++) {
+      for (size_t v = 0; v < 3; v++) {
+        const size_t idx = mesh.indices[3 * f + v].vertex_index;
+        faces.push_back(idx);
+      }
+    }
   }
-  file.read(ss);
+
+  printf("Read mesh with vertexCount %lu %lu, faceCount %lu %lu\n", 
+    vertexCount, verts.size(), faceCount, faces.size());
 
   // create points, normals, edges, counts vectors
   vector<vec3f> points(vertexCount);
@@ -135,7 +181,6 @@ vector<int> segment(const string& plyFile, const float kthr, const int segMinVer
   const size_t edgesCount = faceCount*3;
   edge* edges = new edge[edgesCount];
 
-  printf("Read ply with vertexCount %lu, faceCount %lu\n", vertexCount, faceCount);
   // Compute face normals and smooth into vertex normals
   for (int i = 0; i < faceCount; i++) {
     const int fbase = 3*i;
