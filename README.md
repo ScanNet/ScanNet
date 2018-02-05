@@ -84,6 +84,9 @@ Projection of 3d aggregated annotation of a scan into its RGB-D frames, accordin
 ### ScanNet C++ Toolkit
 Tools for working with ScanNet data. [SensReader](SensReader) loads the ScanNet `.sens` data of compressed RGB-D frames, camera intrinsics and extrinsics, and IMU data.
 
+### Camera Parameter Estimation Code
+Code for estimating camera parameters and depth undistortion. Required to compute sensor calibration files which are used by the pipeline server to undistort depth. See [CameraParameterEstimation](CameraParameterEstimation) for details.
+
 ### Mesh Segmentation Code
 Mesh supersegment computation code which we use to preprocess meshes and prepare for semantic annotation. Refer to [Segmentator](Segmentator) directory for building and using code.
 
