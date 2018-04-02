@@ -2,7 +2,7 @@ Camera Calibration Tutorial
 ============================================
 
 ## Step 1 - Data Preparation
-Download data from : [calibration data](http://blank)  
+
 For a specific device we are expecting two sets of images:
 1. Depth-to-Color: Around 20-30 color and infrared images showing calibration grid 
 from different angles and distances. 
