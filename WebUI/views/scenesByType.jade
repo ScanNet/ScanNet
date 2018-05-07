@@ -1,0 +1,47 @@
+extends layouts/datatable
+
+block title
+  title= "ScanNet Scenes"
+
+block body
+  div
+    h1 Scenes
+    div.btn-group
+      button.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown')
+        | Show
+        span.caret
+      ul.dropdown-menu(role='menu')
+        li
+          a(href='/scans/scenes/type') All
+        li
+          a(href='/scans/scenes/type?group=checked') Checked
+        li
+          a(href='/scans/scenes/type?group=staging') Staging
+  hr
+  div#loadingMessage Loading...
+  table#resultTable(style='visibility: hidden')
+    thead
+      tr
+        th type
+        th scans
+        th scenes
+        th actions
+    tfoot
+      tr
+        th type
+        th scans
+        th scenes
+        th actions
+    tbody
+      each scene in scenes
+        tr
+          td #{scene.type}
+          td #{scene.scans.length}
+          td #{scene.numScenes}
+          td
+            a.btn.btn-primary(href='/scans/manage?sceneType=#{scene.type}', role='button', title="View scans") Scans
+
+block footer
+  script(src="/js/scenesByType.js")
+  script(type="text/javascript").
+    initResultTable({});

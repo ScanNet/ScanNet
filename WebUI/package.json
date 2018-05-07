@@ -1,0 +1,61 @@
+{
+  "name": "ScanNet WebUI",
+  "description": "Web interface for ScanNet",
+  "version": "0.0.0",
+  "homepage": "",
+  "main": "src/",
+  "keywords": [
+    "feathers"
+  ],
+  "license": "MIT",
+  "repository": {},
+  "author": {},
+  "contributors": [],
+  "bugs": {},
+  "engines": {
+    "node": ">= 0.12.0"
+  },
+  "scripts": {
+    "test": "npm run jshint && npm run mocha",
+    "jshint": "jshint src/. test/. --config",
+    "start": "node src/",
+    "mocha": "mocha test/ --recursive"
+  },
+  "dependencies": {
+    "better-queue": "^3.7.21",
+    "better-queue-memory": "^1.0.1",
+    "better-queue-sql": "^1.0.0",
+    "body-parser": "^1.15.2",
+    "compression": "^1.6.2",
+    "cors": "^2.8.0",
+    "csv": "^1.1.0",
+    "express-http-proxy": "^0.10.0",
+    "express-winston": "^2.0.x",
+    "feathers": "^2.0.1",
+    "feathers-authentication": "^0.7.9",
+    "feathers-configuration": "^0.2.3",
+    "feathers-errors": "^2.4.0",
+    "feathers-hooks": "^1.5.7",
+    "feathers-nedb": "^2.5.1",
+    "feathers-rest": "^1.4.4",
+    "feathers-sequelize": "^1.3.2",
+    "feathers-socketio": "^1.4.1",
+    "jade": "^1.11.0",
+    "lodash": "^4.15.0",
+    "nedb": "^1.8.0",
+    "node-uuid": "^1.4.7",
+    "passport": "^0.3.2",
+    "passport-github": "^1.1.0",
+    "passport-github-token": "^2.1.0",
+    "request-promise-native": "^1.0.3",
+    "serve-favicon": "^2.3.0",
+    "sqlite3": "^3.1.10",
+    "winston": "^2.2.0",
+    "winston-context": "^0.0.7"
+  },
+  "devDependencies": {
+    "jshint": "^2.9.3",
+    "mocha": "^3.0.2",
+    "request": "^2.74.0"
+  }
+}

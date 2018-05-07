@@ -1,0 +1,29 @@
+{
+  "host": "localhost",
+  "port": 3030,
+  "nedb": "../data/",
+  "public": "../public/",
+  "settings": {
+    "segmentAnnotatorUrl": "http://localhost/scans/segment-annotator-single",
+    "segmentAnnotationsUrl": "http://localhost/scans/segment-annotations",
+    "segmentAnnotationViewerUrl": "http://localhost/scans/segment-annotations/view",
+    "scanFilesPath": "http://localhost/data/scannet/scans",
+    "scansPaths": {
+      "nyuv2": "/data/nyuv2",
+      "default": "/data/scannet/scans"
+    }
+  },
+  "auth": {
+    "token": {
+      "secret": ""
+    },
+    "local": {},
+    "github": {
+      "clientID": "your github client id",
+      "clientSecret": "your github client secret",
+      "permissions": {
+        "scope": []
+      }
+    }
+  }
+}

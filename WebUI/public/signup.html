@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0">
+    <title>ScanNet Signup</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/basic.css">
+  </head>
+  <body>
+    <main class="login container">
+      <div class="row">
+        <div class="col-8 col-6-tablet push-3-tablet text-center">
+          <h1 class="font-100">Create an Account</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 col-8 col-6-tablet push-3-tablet">
+          <form class="form" method="post" action="/signup">
+            <div class="form-group">
+              <label for="email">Email address</label>
+              <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-primary signup">
+              Signup
+            </button>
+          </form>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

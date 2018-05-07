@@ -1,0 +1,18 @@
+doctype html
+html(lang="en")
+  head
+    title= "ScanNet Annotations"
+    meta(charset= "UTF-8")
+    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
+    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css')
+    link(rel='stylesheet', href='/css/basic.css')
+
+  body
+    include includes/navbar.jade
+
+    main
+      iframe(src="#{settings.segmentAnnotationsUrl}" frameborder="0" style="position:absolute;width:95%; height:95%;")
+
+    script(src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js")
+    script(src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js")
+    script(src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js")

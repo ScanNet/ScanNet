@@ -1,0 +1,36 @@
+doctype html
+html(lang="en")
+  head
+    block title
+      title= "ScanNet"
+    meta(charset= "UTF-8")
+    link(rel='stylesheet', href='//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css')
+    link(rel='stylesheet', href='//cdn.datatables.net/buttons/1.2.2/css/buttons.dataTables.min.css')
+    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css')
+    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css')
+    link(rel='stylesheet', href='//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.min.css')
+    link(rel='stylesheet', href='/css/basic.css')
+    block head
+
+  body
+    block navbar
+      include ../includes/navbar.jade
+
+    main.container
+      block body
+
+    script(src="//cdnjs.cloudflare.com/ajax/libs/lodash.js/4.16.4/lodash.min.js")
+    script(src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js")
+    script(src="//ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js")
+    script(src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js")
+    script(src="//cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js")
+    script(src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js")
+    script(src="//cdn.datatables.net/select/1.2.0/js/dataTables.select.min.js")
+    script(src="//cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js")
+    script(src="//cdn.datatables.net/buttons/1.2.2/js/buttons.colVis.min.js")
+    script(src="//cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js")
+    script(src="/js/datatables.js")
+    script(src="/js/auth.js")
+    script(type="text/javascript").
+      var settings = !{JSON.stringify(settings)};
+    block footer

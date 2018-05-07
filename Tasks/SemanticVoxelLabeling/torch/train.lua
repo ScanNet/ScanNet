@@ -13,7 +13,7 @@ opt_string = [[
     -b,--batchSize          (default 64)            batch size
     -r,--learningRate       (default 0.01)          learning rate
     --learningRateDecay     (default 1e-7)          learning rate decay
-    --weigthDecay           (default 0.0005)        weight decay
+    --weigthDecay           (default 0.001)        weight decay
     -m,--momentum           (default 0.9)           mementum
     --epoch_step            (default 20)            epoch step
     -g,--gpu_index          (default 0)             GPU index (start from 0)

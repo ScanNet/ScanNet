@@ -1,0 +1,50 @@
+nav.navbar.navbar-default(role='navigation')
+  .container-fluid
+    // Brand and toggle get grouped for better mobile display
+    .navbar-header
+      button.navbar-toggle(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1')
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      a.navbar-brand(href='/') ScanNet
+    // Collect the nav links, forms, and other content for toggling
+    #bs-example-navbar-collapse-1.collapse.navbar-collapse
+      ul.nav.navbar-nav
+        li.dropdown
+          a.dropdown-toggle(href='#', data-toggle='dropdown')
+            | Scans
+            span.caret
+          ul.dropdown-menu(role='menu')
+            li
+              a(href='/scans/manage') All
+            li
+              a(href='/scans/process') Queued
+            li
+              a(href='/scans/scenes') Scenes by id
+            li
+              a(href='/scans/scenes/type') Scenes by type
+            li
+              a(href='/scans/devices/id') Devices by id
+            li
+              a(href='/scans/devices/name') Devices by name
+            li
+              a(href='/scans/tags') Tags
+            li
+              a(href='/scans/users') Users
+        li.dropdown
+          a.dropdown-toggle(href='#', data-toggle='dropdown')
+            | Annotations
+            span.caret
+          ul.dropdown-menu(role='menu')
+            li
+              a(href='/scans/annotations') All
+        li.dropdown
+          a.dropdown-toggle(href='#', data-toggle='dropdown')
+            | NYU
+            span.caret
+          ul.dropdown-menu(role='menu')
+            li
+              a(href='/scans/browse/nyu') Scans
+            li
+              a(href='/scans/browse/nyu/frames') Frames

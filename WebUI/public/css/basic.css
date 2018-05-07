@@ -1,0 +1,94 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: 'Helvetica Neue', 'Helvetica', 'Arial', 'sans-serif';
+  font-weight: 400;
+  font-size: 16px;
+  color: #333;
+}
+
+.center-text {
+  text-align: center;
+}
+
+main {
+  margin-top: 20px;
+  padding: 20px;
+}
+
+img.logo {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  margin-bottom: 30px;
+}
+
+h2 {
+  font-size: 2em;
+  font-weight: 100;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+}
+
+footer p {
+  font-weight: 300;
+  font-size: 1.0em;
+}
+
+a {
+  color: green;
+  text-decoration: none;
+}
+
+a:hover,
+a:focus {
+  color: green;
+}
+
+tfoot input {
+  width: 100%;
+}
+
+.ui-autocomplete {
+  max-height: 100px;
+  overflow-y: auto;
+  /* prevent horizontal scrollbar */
+  overflow-x: hidden;
+}
+
+.progress-strip {
+  border-radius: 10px;
+  padding: 5px;
+  width: 10px;
+  height: 20px;
+}
+
+.progress-strip:hover {
+  opacity:0.6;
+}
+
+.progress-ok {
+  background: green;
+}
+
+.progress-none {
+  background: gray;
+}
+
+.progress-failed {
+  background: red;
+}
+
+.videoPreview {
+  cursor: pointer;
+}
