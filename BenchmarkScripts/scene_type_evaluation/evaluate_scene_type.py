@@ -1,13 +1,13 @@
-# Evaluates semantic label task
+# Evaluates scene type classification task
 # Input:
-#   - path to .txt prediction files
-#   - path to .txt ground truth files
+#   - path to .txt prediction file
+#   - path to .txt ground truth file
 #   - output file to write results to
 # Note that only the valid classes are used for evaluation,
 # i.e., any ground truth label not in the valid label set
 # is ignored in the evaluation.
 #
-# example usage: evaluate_semantic_label.py --scan_path [path to scan data] --output_file [output file]
+# example usage: evaluate_scene_type.py --pred_file [path to prediction file] --gt_file [path to gt file] --output_file [output file]
 
 # python imports
 import math
@@ -31,38 +31,18 @@ import util
 import util_3d
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--pred_path', required=True, help='path to directory of predicted grids and world2grids as np arrays')
-parser.add_argument('--gt_path', required=True, help='path to gt files')
-parser.add_argument('--output_file', default='', help='output file [default: pred_path/semantic_label_evaluation.txt]')
+parser.add_argument('--pred_file', required=True, help='path to directory of predicted grids and world2grids as np arrays')
+parser.add_argument('--gt_file', required=True, help='path to gt files')
+parser.add_argument('--output_file', default='', help='output file [default: scene_type_evaluation.txt]')
 opt = parser.parse_args()
 
 if opt.output_file == '':
-    opt.output_file = os.path.join(opt.pred_path, 'semantic_label_evaluation.txt')
+    opt.output_file = 'scene_type_evaluation.txt'
 
 
-CLASS_LABELS = ['wall', 'floor', 'cabinet', 'bed', 'chair', 'sofa', 'table', 'door', 'window', 'bookshelf', 'picture', 'counter', 'desk', 'curtain', 'refrigerator', 'shower curtain', 'toilet', 'sink', 'bathtub', 'otherfurniture']
-VALID_CLASS_IDS = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 16, 24, 28, 33, 34, 36, 39])
-UNKNOWN_ID = np.max(VALID_CLASS_IDS) + 1
-
-
-def evaluate_scan(pred_file, gt_file, confusion):
-    try:
-        pred_ids = util_3d.load_ids(pred_file)
-    except Exception, e:
-        util.print_error('unable to load ' + pred_file + ': ' + str(e))
-    try:
-        gt_ids = util_3d.load_ids(gt_file)
-    except Exception, e:
-        util.print_error('unable to load ' + gt_file + ': ' + str(e))
-    # sanity checks
-    if not pred_ids.shape == gt_ids.shape:
-        util.print_error('%s: number of predicted values does not match number of vertices' % pred_file, user_fault=True)
-    for (gt_val,pred_val) in izip(gt_ids.flatten(),pred_ids.flatten()):
-        if gt_val not in VALID_CLASS_IDS:
-            continue
-        if pred_val not in VALID_CLASS_IDS:
-            pred_val = UNKNOWN_ID
-        confusion[gt_val][pred_val] += 1
+CLASS_LABELS = ['apartment', 'bathroom', 'bedroom / hotel', 'bookstore / library', 'conference room', 'copy/mail room', 'hallway', 'kitchen', 'laundry room', 'living_room / lounge', 'office', 'storage / basement / garage', 'misc.']
+VALID_CLASS_IDS = np.array([1, 2, 3, 4, 8, 9, 13, 14, 15, 16, 18, 20, 21])
+UNKNOWN_ID = np.max(VALID_CLASS_IDS + 1)
 
 
 def get_iou(label_id, confusion):
@@ -104,16 +84,43 @@ def write_result_file(confusion, ious, filename):
     print 'wrote results to', filename
 
 
-def evaluate(pred_files, gt_files, output_file):
-    max_id = UNKNOWN_ID
+def evaluate(pred_file, gt_file, output_file):
+    max_id = UNKNOWN_ID + 1
     confusion = np.zeros((max_id+1, max_id+1), dtype=np.ulonglong)
 
-    print 'evaluating', len(pred_files), 'scans...'
-    for i in range(len(pred_files)):
-        evaluate_scan(pred_files[i], gt_files[i], confusion)
-        sys.stdout.write("\rscans processed: {}".format(i+1))
-        sys.stdout.flush()
-    print ''
+    predictions = {}
+    gt = {}
+    try:
+        lines = open(pred_file).read().splitlines()
+    except Exception, e:
+        util.print_error('unable to load ' + pred_file + ': ' + str(e))
+    for line in lines:
+        parts = line.split(' ')
+        if len(parts) != 2 or not util.represents_int(parts[1]):
+            util.print_error('Prediction file must have lines of format [%s %d] for scan name and scene type, respectively')
+        predictions[parts[0]] = int(parts[1])
+    try:
+        lines = open(gt_file).read().splitlines()
+    except Exception, e:
+        util.print_error('unable to load ' + gt_file + ': ' + str(e))
+    for line in lines:
+        parts = line.split(' ')
+        if len(parts) != 2 or not util.represents_int(parts[1]):
+            util.print_error('Ground truth file must have lines of format [%s %d] for scan name and scene type, respectively')
+        gt[parts[0]] = int(parts[1])
+    # sanity checks
+    if len(predictions) != len(gt):
+        util.print_error('number of predicted scans (%d) does not match number of ground truth scans (%d)' % (len(predictions), len(gt)))
+    print 'evaluating', len(predictions), 'scans...'
+    for gt_scan,gt_type in gt.iteritems():
+        if gt_type not in VALID_CLASS_IDS:
+            continue
+        if gt_scan not in predictions:
+            util.print_error('prediction file does not contain gt scan %s' % gt_scan)
+        pred_type = predictions[gt_scan]
+        if pred_type not in VALID_CLASS_IDS:
+            pred_type = UNKNOWN_ID
+        confusion[gt_type][pred_type] += 1
 
     class_ious = {}
     for i in range(len(VALID_CLASS_IDS)):
@@ -131,19 +138,8 @@ def evaluate(pred_files, gt_files, output_file):
 
 
 def main():
-    pred_files = [f for f in os.listdir(opt.pred_path) if f.endswith('.txt') and f != 'semantic_label_evaluation.txt']
-    gt_files = []
-    if len(pred_files) == 0:
-        util.print_error('No result files found.', user_fault=True)
-    for i in range(len(pred_files)):
-        gt_file = os.path.join(opt.gt_path, pred_files[i])
-        if not os.path.isfile(gt_file):
-            util.print_error('Result file {} does not match any gt file'.format(pred_files[i]), user_fault=True)
-        gt_files.append(gt_file)
-        pred_files[i] = os.path.join(opt.pred_path, pred_files[i])
-
     # evaluate
-    evaluate(pred_files, gt_files, opt.output_file)
+    evaluate(opt.pred_file, opt.gt_file, opt.output_file)
 
 
 if __name__ == '__main__':

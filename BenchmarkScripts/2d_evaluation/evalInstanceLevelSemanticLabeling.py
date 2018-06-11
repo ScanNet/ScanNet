@@ -65,9 +65,7 @@ if not opt.output_file:
 ######################
 
 CLASS_LABELS = ['cabinet', 'bed', 'chair', 'sofa', 'table', 'door', 'window', 'bookshelf', 'picture', 'counter', 'desk', 'curtain', 'refrigerator', 'shower curtain', 'toilet', 'sink', 'bathtub', 'otherfurniture']
-_VALID_CLASS_IDS = np.array([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 16, 24, 28, 33, 34, 36, 39])
-_CLASS_OFFSET = 33
-VALID_CLASS_IDS = _VALID_CLASS_IDS + _CLASS_OFFSET
+VALID_CLASS_IDS = np.array([3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 16, 24, 28, 33, 34, 36, 39])
 ID2LABEL = {}
 for i in range(len(CLASS_LABELS)):
     ID2LABEL[VALID_CLASS_IDS[i]] = CLASS_LABELS[i]
@@ -85,8 +83,10 @@ opt.gtInstancesFile    = os.path.join(os.path.dirname(os.path.realpath(__file__)
 
 
 # Print an error message and quit
-def printError(message):
+def printError(message, user_fault=False):
     print('ERROR: ' + str(message))
+    if user_fault:
+      sys.exit(2)
     sys.exit(-1)
 
 # Returns the directory name for the given filename, e.g.
@@ -121,16 +121,16 @@ def readPredInfo(predInfoFileName):
         for line in f:
             splittedLine         = line.split(" ")
             if len(splittedLine) != 3:
-                printError( "Invalid prediction file. Expected content: relPathPrediction1 labelIDPrediction1 confidencePrediction1" )
+                printError( "Invalid prediction file. Expected content: relPathPrediction1 labelIDPrediction1 confidencePrediction1", user_fault=True )
             if os.path.isabs(splittedLine[0]):
-                printError( "Invalid prediction file. First entry in each line must be a relative path." )
+                printError( "Invalid prediction file. First entry in each line must be a relative path.", user_fault=True )
 
             filename             = os.path.join( os.path.dirname(predInfoFileName),splittedLine[0] )
             filename             = os.path.abspath( filename )
 
             # check if that file is actually somewhere within the prediction root
             if os.path.commonprefix( [filename,abs_pred_path] ) != abs_pred_path:
-                printError( "Predicted mask {} in prediction text file {} points outside of prediction path.".format(filename,predInfoFileName) )
+                printError( "Predicted mask {} in prediction text file {} points outside of prediction path.".format(filename,predInfoFileName), user_fault=True )
 
             imageInfo            = {}
             imageInfo["labelID"] = int(float(splittedLine[1]))
@@ -611,11 +611,11 @@ def main(argv):
                  pred_files.append(os.path.join(root, file))
     gt_files = []
     if len(pred_files) == 0:
-        printError("No result files found.")
+        printError("No result files found.", user_fault=True)
     for i in range(len(pred_files)):
         gt_file = os.path.join(opt.gt_path, os.path.splitext(os.path.basename(pred_files[i]))[0] + '.png')
         if not os.path.isfile(gt_file):
-            printError("Result file {} does not match any gt file".format(pred_files[i]))
+            printError("Result file {} does not match any gt file".format(pred_files[i]), user_fault=True)
         gt_files.append(gt_file)
         pred_files[i] = os.path.join(opt.pred_path, pred_files[i])
     print pred_files

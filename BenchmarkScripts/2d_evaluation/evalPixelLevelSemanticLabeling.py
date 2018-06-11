@@ -65,18 +65,18 @@ if not opt.output_file:
 
 
 CLASS_LABELS = ['wall', 'floor', 'cabinet', 'bed', 'chair', 'sofa', 'table', 'door', 'window', 'bookshelf', 'picture', 'counter', 'desk', 'curtain', 'refrigerator', 'shower curtain', 'toilet', 'sink', 'bathtub', 'otherfurniture']
-_VALID_CLASS_IDS = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 16, 24, 28, 33, 34, 36, 39])
-_CLASS_OFFSET = 33
-VALID_CLASS_IDS = _VALID_CLASS_IDS + _CLASS_OFFSET
-ALL_CLASS_IDS = np.arange(40 + _CLASS_OFFSET + 1)
+VALID_CLASS_IDS = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 16, 24, 28, 33, 34, 36, 39])
+ALL_CLASS_IDS = np.arange(40 + 1)
 
 #########################
 # Methods
 #########################
 
 # Print an error message and quit
-def printError(message):
+def printError(message, user_fault=False):
     print('ERROR: ' + str(message))
+    if user_fault:
+      sys.exit(2)
     sys.exit(-1)
 
 
@@ -177,7 +177,7 @@ def write_result_file(conf, scores, filename):
 # Evaluate image lists pairwise.
 def evaluateImgLists(predictionImgList, groundTruthImgList, outputFile):
     if len(predictionImgList) != len(groundTruthImgList):
-        printError("List of images for prediction and groundtruth are not of equal size.")
+        printError("List of images for prediction and groundtruth are not of equal size.", user_fault=True)
     confMatrix    = generateMatrix()
     perImageStats = {}
     nbPixels      = 0
@@ -238,9 +238,9 @@ def evaluatePair(predictionImgFileName, groundTruthImgFileName, confMatrix, perI
 
     # Check for equal image sizes
     if not (predictionImg.size[0] == groundTruthImg.size[0] or predictionImg.size[0] == 640 and predictionImg.size[1] == 480):
-        printError("Invalid image size for " + predictionImgFileName)
+        printError("Invalid image size for " + predictionImgFileName, user_fault=True)
     if ( len(predictionNp.shape) != 2 ):
-        printError("Predicted image has multiple channels.")
+        printError("Predicted image has multiple channels.", user_fault=True)
 
     # resize for evaluation 
     predictionImg = predictionImg.resize((640, 480), Image.NEAREST)
@@ -269,11 +269,11 @@ def main():
     pred_files = os.listdir(opt.pred_path)
     gt_files = []
     if len(pred_files) == 0:
-        printError("No result files found.")
+        printError("No result files found.", user_fault=True)
     for i in range(len(pred_files)):
         gt_file = os.path.join(opt.gt_path, pred_files[i])
         if not os.path.isfile(gt_file):
-            printError("Result file {} does not match any gt file".format(pred_files[i]))
+            printError("Result file {} does not match any gt file".format(pred_files[i]), user_fault=True)
         gt_files.append(gt_file)
         pred_files[i] = os.path.join(opt.pred_path, pred_files[i])
 

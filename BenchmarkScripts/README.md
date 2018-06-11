@@ -1,6 +1,8 @@
 # ScanNet Benchmark Scripts
 
-We provide scripts for evaluation of the tasks in the [ScanNet benchmark](TODO LINK), as well as some helper scripts which prepare and visualize data.
+We provide scripts for evaluation of the tasks in the [ScanNet benchmark](http://kaldir.vc.in.tum.de/scannet_benchmark), as well as some helper scripts which prepare and visualize data.
+
+These scripts have been developed and tested with Python 2.7.
 
 ## Evaluation Scripts
 The evaluation for both 2D and 3D semantic label and instance segmentation tasks are adapted from the [CityScapes evaluation](https://github.com/mcordts/cityscapesScripts), and provided in [2d_evaluation](2d_evaluation) and [3d_evaluation](3d_evaluation), respectively.

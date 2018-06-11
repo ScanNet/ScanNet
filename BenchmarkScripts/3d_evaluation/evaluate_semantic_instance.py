@@ -359,11 +359,11 @@ def main():
     pred_files = [f for f in os.listdir(opt.pred_path) if f.endswith('.txt') and f != 'semantic_instance_evaluation.txt']
     gt_files = []
     if len(pred_files) == 0:
-        util.print_error("No result files found.")
+        util.print_error('No result files found.', user_fault=True)
     for i in range(len(pred_files)):
         gt_file = os.path.join(opt.gt_path, pred_files[i])
         if not os.path.isfile(gt_file):
-            util.print_error("Result file {} does not match any gt file".format(pred_files[i]))
+            util.print_error('Result file {} does not match any gt file'.format(pred_files[i]), user_fault=True)
         gt_files.append(gt_file)
         pred_files[i] = os.path.join(opt.pred_path, pred_files[i])
 
