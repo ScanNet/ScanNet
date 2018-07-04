@@ -31,7 +31,7 @@ import util
 import util_3d
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--pred_path', required=True, help='path to directory of predicted grids and world2grids as np arrays')
+parser.add_argument('--pred_path', required=True, help='path to directory of predicted .txt files')
 parser.add_argument('--gt_path', required=True, help='path to gt files')
 parser.add_argument('--output_file', default='', help='output file [default: pred_path/semantic_label_evaluation.txt]')
 opt = parser.parse_args()
