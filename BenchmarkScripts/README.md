@@ -5,9 +5,9 @@ We provide scripts for evaluation of the tasks in the [ScanNet benchmark](http:/
 These scripts have been developed and tested with Python 2.7.
 
 ## Evaluation Scripts
-The evaluation for both 2D and 3D semantic label and instance segmentation tasks are adapted from the [CityScapes evaluation](https://github.com/mcordts/cityscapesScripts), and provided in [2d_evaluation](2d_evaluation) and [3d_evaluation](3d_evaluation), respectively.
+The evaluation for both 2D and 3D semantic label and instance segmentation tasks are adapted from the [CityScapes evaluation](https://github.com/mcordts/cityscapesScripts), and provided in [2d_evaluation](2d_evaluation) and [3d_evaluation](3d_evaluation), respectively. The evaluation for the scene type classification task is provided in [scene_type_evaluation](scene_type_evaluation).
 
-Note that visualization and data preparation scripts depend on the ScanNet label mapping file `scannetv2-labels.combined.tsv` to convert labels into the NYUv2 40-label set, which we use for evaluation.
+Note that visualization and data preparation scripts for semantic instance and label prediction depend on the ScanNet label mapping file `scannetv2-labels.combined.tsv` to convert labels into the NYUv2 40-label set, which we use for evaluation.
 
 Please see the [benchmark evaluation documentation](http://kaldir.vc.in.tum.de/scannet_benchmark/documentation) for more information about evaluation data formats and label sets.
 
@@ -19,4 +19,6 @@ Please see the [benchmark evaluation documentation](http://kaldir.vc.in.tum.de/s
 * 3D:
   * [3d_helpers](3d_helpers) contains helper scripts for exporting a train scan into the 3D evaluation format for semantic instance and label segmentation.
   * `3d_helpers/visualize_labels_on_mesh` can be used to visualize semantic labels on a mesh (assumes NYUv2 40 labels).
-
+  
+* Scene Types:
+  * `scene_type_helpers/get_scene_type_for_scan` can be used to get the scene type id from the info `<scanId>.txt` file for a scan in the ScanNet release.
