@@ -18,7 +18,7 @@ class Instance(object):
         self.pixelCount = int(self.getInstancePixels(imgNp, instID))
 
     def getLabelID(self, instID):
-        return int(instID // 256)
+        return int(instID // 1000)
 
     def getInstancePixels(self, imgNp, instLabel):
         return (imgNp == instLabel).sum()

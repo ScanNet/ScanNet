@@ -604,6 +604,7 @@ def evaluateImgLists(predictionList, groundTruthList):
 def main(argv):
 
     #pred_files = [os.path.join(opt.pred_path, file) for file in os.listdir(opt.pred_path) if not os.path.isdir(os.path.join(opt.pred_path, file)) and file.endswith('.txt')]
+    pred_files = []
     # find all the text files recursively
     for root, dirs, files in os.walk(opt.pred_path):
         for file in files:
@@ -617,9 +618,8 @@ def main(argv):
         if not os.path.isfile(gt_file):
             printError("Result file {} does not match any gt file".format(pred_files[i]), user_fault=True)
         gt_files.append(gt_file)
-        pred_files[i] = os.path.join(opt.pred_path, pred_files[i])
-    print pred_files
-    print gt_files
+    #print pred_files
+    #print gt_files
 
     # print some info for user
     print "Note that this tool uses the file '{}' to cache the ground truth instances.".format(opt.gtInstancesFile)
