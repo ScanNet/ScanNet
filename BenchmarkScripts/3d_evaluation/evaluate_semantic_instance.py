@@ -63,7 +63,7 @@ for i in range(len(VALID_CLASS_IDS)):
     ID_TO_LABEL[VALID_CLASS_IDS[i]] = CLASS_LABELS[i]
 # ---------- Evaluation params ---------- #
 # overlaps for evaluation
-opt.overlaps             = np.arange(0.5,1.,0.05)
+opt.overlaps             = np.append(np.arange(0.5,0.95,0.05), 0.25)
 # minimum region size for evaluation [verts]
 opt.min_region_sizes     = np.array( [ 100 ] )
 # distance thresholds [m]
@@ -82,6 +82,13 @@ def evaluate_matches(matches):
     ap = np.zeros( (len(dist_threshes) , len(CLASS_LABELS) , len(overlaps)) , np.float )
     for di, (min_region_size, distance_thresh, distance_conf) in enumerate(zip(min_region_sizes, dist_threshes, dist_confs)):
         for oi, overlap_th in enumerate(overlaps):
+            pred_visited = {}
+            for m in matches:
+                for p in matches[m]['pred']:
+                    for label_name in CLASS_LABELS:
+                        for p in matches[m]['pred'][label_name]:
+                            if 'filename' in p:
+                                pred_visited[p['filename']] = False
             for li, label_name in enumerate(CLASS_LABELS):
                 y_true = np.empty(0)
                 y_score = np.empty(0)
@@ -104,7 +111,11 @@ def evaluate_matches(matches):
                     # collect matches
                     for (gti,gt) in enumerate(gt_instances):
                         found_match = False
+                        num_pred = len(gt['matched_pred'])
                         for pred in gt['matched_pred']:
+                            # greedy assignments
+                            if pred_visited[pred['filename']]:
+                                continue
                             overlap = float(pred['intersection']) / (gt['vert_count']+pred['vert_count']-pred['intersection'])
                             if overlap > overlap_th:
                                 confidence = pred['confidence']
@@ -123,8 +134,9 @@ def evaluate_matches(matches):
                                     found_match = True
                                     cur_match[gti] = True
                                     cur_score[gti] = confidence
+                                    pred_visited[pred['filename']] = True
                         if not found_match:
-                            hardFns += 1
+                            hard_false_negatives += 1
                     # remove non-matched ground truth instances
                     cur_true  = cur_true [ cur_match==True ]
                     cur_score = cur_score[ cur_match==True ]
@@ -135,16 +147,16 @@ def evaluate_matches(matches):
                         for gt in pred['matched_gt']:
                             overlap = float(gt['intersection']) / (gt['vert_count']+pred['vert_count']-gt['intersection'])
                             if overlap > overlap_th:
-                                foundGt = True
+                                found_gt = True
                                 break
-                        if not foundGt:
+                        if not found_gt:
                             num_ignore = pred['void_intersection']
                             for gt in pred['matched_gt']:
                                 # group?
                                 if gt['instance_id'] < 1000:
                                     num_ignore += gt['intersection']
                                 # small ground truth instances
-                                if gt['vert_count'] < min_region_size or gt['med_dist']>distance_thresh or gt['dist_conf']<distance_donf:
+                                if gt['vert_count'] < min_region_size or gt['med_dist']>distance_thresh or gt['dist_conf']<distance_conf:
                                     num_ignore += gt['intersection']
                             proportion_ignore = float(num_ignore)/pred['vert_count']
                             # if not ignored append false positive
@@ -213,14 +225,20 @@ def evaluate_matches(matches):
 def compute_averages(aps):
     d_inf = 0
     o50   = np.where(np.isclose(opt.overlaps,0.5))
+    o25   = np.where(np.isclose(opt.overlaps,0.25))
+    oAllBut25  = np.where(np.logical_not(np.isclose(opt.overlaps,0.25)))
     avg_dict = {}
-    avg_dict['all_ap']     = np.nanmean(aps[ d_inf,:,:  ])
+    #avg_dict['all_ap']     = np.nanmean(aps[ d_inf,:,:  ])
+    avg_dict['all_ap']     = np.nanmean(aps[ d_inf,:,oAllBut25])
     avg_dict['all_ap_50%'] = np.nanmean(aps[ d_inf,:,o50])
+    avg_dict['all_ap_25%'] = np.nanmean(aps[ d_inf,:,o25])
     avg_dict["classes"]  = {}
     for (li,label_name) in enumerate(CLASS_LABELS):
         avg_dict["classes"][label_name]             = {}
-        avg_dict["classes"][label_name]["ap"]       = np.average(aps[ d_inf,li,  :])
+        #avg_dict["classes"][label_name]["ap"]       = np.average(aps[ d_inf,li,  :])
+        avg_dict["classes"][label_name]["ap"]       = np.average(aps[ d_inf,li,oAllBut25])
         avg_dict["classes"][label_name]["ap50%"]    = np.average(aps[ d_inf,li,o50])
+        avg_dict["classes"][label_name]["ap25%"]    = np.average(aps[ d_inf,li,o25])
     return avg_dict
 
 
@@ -259,7 +277,7 @@ def assign_instances_for_scan(pred_file, gt_file, pred_path):
         # convert to binary
         pred_mask = np.not_equal(pred_mask, 0)
         num = np.count_nonzero(pred_mask)
-        if not num:
+        if num < opt.min_region_sizes[0]:
             continue  # skip if empty
 
         pred_instance = {}
@@ -292,7 +310,7 @@ def assign_instances_for_scan(pred_file, gt_file, pred_path):
 def print_results(avgs):
     sep     = "" 
     col1    = ":"
-    lineLen = 50
+    lineLen = 64
 
     print ""
     print "#"*lineLen
@@ -300,24 +318,29 @@ def print_results(avgs):
     line += "{:<15}".format("what"      ) + sep + col1
     line += "{:>15}".format("AP"        ) + sep
     line += "{:>15}".format("AP_50%"    ) + sep
+    line += "{:>15}".format("AP_25%"    ) + sep
     print line
     print "#"*lineLen
 
     for (li,label_name) in enumerate(CLASS_LABELS):
         ap_avg  = avgs["classes"][label_name]["ap"]
         ap_50o  = avgs["classes"][label_name]["ap50%"]
+        ap_25o  = avgs["classes"][label_name]["ap25%"]
         line  = "{:<15}".format(label_name) + sep + col1
         line += sep + "{:>15.3f}".format(ap_avg ) + sep
         line += sep + "{:>15.3f}".format(ap_50o ) + sep
+        line += sep + "{:>15.3f}".format(ap_25o ) + sep
         print line
 
     all_ap_avg  = avgs["all_ap"]
     all_ap_50o  = avgs["all_ap_50%"]
+    all_ap_25o  = avgs["all_ap_25%"]
 
     print "-"*lineLen
     line  = "{:<15}".format("average") + sep + col1 
     line += "{:>15.3f}".format(all_ap_avg)  + sep 
     line += "{:>15.3f}".format(all_ap_50o)  + sep
+    line += "{:>15.3f}".format(all_ap_25o)  + sep
     print line
     print ""
 
