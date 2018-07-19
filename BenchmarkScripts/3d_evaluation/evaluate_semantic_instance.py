@@ -274,6 +274,8 @@ def assign_instances_for_scan(pred_file, gt_file, pred_path):
         label_name = ID_TO_LABEL[label_id]
         # read the mask
         pred_mask = util_3d.load_ids(pred_mask_file)
+        if len(pred_mask) != len(gt_ids):
+            util.print_error('wrong number of lines in ' + pred_mask_file + '(%d) vs #mesh vertices (%d), please double check and/or re-download the mesh' % (len(pred_mask), len(gt_ids)))
         # convert to binary
         pred_mask = np.not_equal(pred_mask, 0)
         num = np.count_nonzero(pred_mask)
@@ -348,13 +350,14 @@ def print_results(avgs):
 def write_result_file(avgs, filename):
     _SPLITTER = ','
     with open(filename, 'w') as f:
-        f.write(_SPLITTER.join(['class', 'class id', 'ap', 'ap50']) + '\n')
+        f.write(_SPLITTER.join(['class', 'class id', 'ap', 'ap50', 'ap25']) + '\n')
         for i in range(len(VALID_CLASS_IDS)):
             class_name = CLASS_LABELS[i]
             class_id = VALID_CLASS_IDS[i]
             ap = avgs["classes"][class_name]["ap"]
             ap50 = avgs["classes"][class_name]["ap50%"]
-            f.write(_SPLITTER.join([str(x) for x in [class_name, class_id, ap, ap50]]) + '\n')    
+            ap25 = avgs["classes"][class_name]["ap25%"]
+            f.write(_SPLITTER.join([str(x) for x in [class_name, class_id, ap, ap50, ap25]]) + '\n')    
 
 
 def evaluate(pred_files, gt_files, pred_path, output_file):
