@@ -3,6 +3,7 @@ import os, struct
 import numpy as np
 import zlib
 import imageio
+import cv2
 
 COMPRESSION_TYPE_COLOR = {-1:'unknown', 0:'raw', 1:'png', 2:'jpeg'}
 COMPRESSION_TYPE_DEPTH = {-1:'unknown', 0:'raw_ushort', 1:'zlib_ushort', 2:'occi_ushort'}
@@ -73,22 +74,26 @@ class SensorData:
         self.frames.append(frame)
 
 
-  def export_depth_images(self, output_path, frame_skip=1):
+  def export_depth_images(self, output_path, image_size=None, frame_skip=1):
     if not os.path.exists(output_path):
       os.makedirs(output_path)
     print 'exporting', len(self.frames)//frame_skip, ' depth frames to', output_path
     for f in range(0, len(self.frames), frame_skip):
       depth_data = self.frames[f].decompress_depth(self.depth_compression_type)
       depth = np.fromstring(depth_data, dtype=np.uint16).reshape(self.depth_height, self.depth_width)
+      if image_size is not None:
+        depth = cv2.resize(depth, (image_size[1], image_size[0]), interpolation=cv2.INTER_NEAREST)
       imageio.imwrite(os.path.join(output_path, str(f) + '.png'), depth)
 
 
-  def export_color_images(self, output_path, frame_skip=1):
+  def export_color_images(self, output_path, image_size=None, frame_skip=1):
     if not os.path.exists(output_path):
       os.makedirs(output_path)
     print 'exporting', len(self.frames)//frame_skip, 'color frames to', output_path
     for f in range(0, len(self.frames), frame_skip):
       color = self.frames[f].decompress_color(self.color_compression_type)
+      if image_size is not None:
+        color = cv2.resize(color, (image_size[1], image_size[0]), interpolation=cv2.INTER_NEAREST)
       imageio.imwrite(os.path.join(output_path, str(f) + '.jpg'), color)
 
 
