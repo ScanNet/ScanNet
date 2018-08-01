@@ -73,21 +73,21 @@ class SensorData:
         self.frames.append(frame)
 
 
-  def export_depth_images(self, output_path):
+  def export_depth_images(self, output_path, frame_skip=1):
     if not os.path.exists(output_path):
       os.makedirs(output_path)
-    print 'exporting', len(self.frames), ' depth frames to', output_path
-    for f in range(len(self.frames)):
+    print 'exporting', len(self.frames)//frame_skip, ' depth frames to', output_path
+    for f in range(0, len(self.frames), frame_skip):
       depth_data = self.frames[f].decompress_depth(self.depth_compression_type)
       depth = np.fromstring(depth_data, dtype=np.uint16).reshape(self.depth_height, self.depth_width)
       imageio.imwrite(os.path.join(output_path, str(f) + '.png'), depth)
 
 
-  def export_color_images(self, output_path):
+  def export_color_images(self, output_path, frame_skip=1):
     if not os.path.exists(output_path):
       os.makedirs(output_path)
-    print 'exporting', len(self.frames), 'color frames to', output_path
-    for f in range(len(self.frames)):
+    print 'exporting', len(self.frames)//frame_skip, 'color frames to', output_path
+    for f in range(0, len(self.frames), frame_skip):
       color = self.frames[f].decompress_color(self.color_compression_type)
       imageio.imwrite(os.path.join(output_path, str(f) + '.jpg'), color)
 
@@ -98,11 +98,11 @@ class SensorData:
         np.savetxt(f, line[np.newaxis], fmt='%f')
 
 
-  def export_poses(self, output_path):
+  def export_poses(self, output_path, frame_skip=1):
     if not os.path.exists(output_path):
       os.makedirs(output_path)
-    print 'exporting', len(self.frames), 'camera poses to', output_path
-    for f in range(len(self.frames)):
+    print 'exporting', len(self.frames)//frame_skip, 'camera poses to', output_path
+    for f in range(0, len(self.frames), frame_skip):
       self.save_mat_to_file(self.frames[f].camera_to_world, os.path.join(output_path, str(f) + '.txt'))
 
 
@@ -114,4 +114,3 @@ class SensorData:
     self.save_mat_to_file(self.extrinsic_color, os.path.join(output_path, 'extrinsic_color.txt'))
     self.save_mat_to_file(self.intrinsic_depth, os.path.join(output_path, 'intrinsic_depth.txt'))
     self.save_mat_to_file(self.extrinsic_depth, os.path.join(output_path, 'extrinsic_depth.txt'))
-
