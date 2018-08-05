@@ -83,7 +83,7 @@ def write_result_file(confusion, ious, accs, filename):
             label_name = CLASS_LABELS[i]
             iou = ious[label_name][0]
             f.write('{0:<32s}({1:<2d}): {2:>5.3f}\n'.format(label_name, label_id, iou))
-        f.write('class accuracies\n')
+        f.write('recall scores\n')
         for i in range(len(VALID_CLASS_IDS)):
             label_id = VALID_CLASS_IDS[i]
             label_name = CLASS_LABELS[i]
@@ -156,7 +156,7 @@ def evaluate(pred_file, gt_file, output_file):
         #print('{{0:<32s}: 1:>5.3f}'.format(label_name, class_ious[label_name][0]))
         print('{0:<32s}: {1:>5.3f}   ({2:>6d}/{3:<6d})'.format(label_name, class_ious[label_name][0], class_ious[label_name][1], class_ious[label_name][2]))
     print ''
-    print 'classes          acc'
+    print 'classes          recall'
     print '----------------------------'
     for i in range(len(VALID_CLASS_IDS)):
         label_name = CLASS_LABELS[i]
