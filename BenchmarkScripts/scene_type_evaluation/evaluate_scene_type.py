@@ -62,22 +62,41 @@ def get_iou(label_id, confusion):
     return (float(tp) / denom, tp, denom)
 
 
-def write_result_file(confusion, ious, filename):
+def get_acc(label_id, confusion):
+    if not label_id in VALID_CLASS_IDS:
+        return float('nan')
+    # #true positives
+    tp = np.longlong(confusion[label_id, label_id])
+    # #false negatives
+    fn = np.longlong(confusion[label_id, :].sum()) - tp
+    denom = (tp + fn)
+    if denom == 0:
+        return float('nan')
+    return (float(tp) / denom, tp, denom)
+
+
+def write_result_file(confusion, ious, accs, filename):
     with open(filename, 'w') as f:
         f.write('iou scores\n')
         for i in range(len(VALID_CLASS_IDS)):
             label_id = VALID_CLASS_IDS[i]
             label_name = CLASS_LABELS[i]
             iou = ious[label_name][0]
-            f.write('{0:<14s}({1:<2d}): {2:>5.3f}\n'.format(label_name, label_id, iou))
+            f.write('{0:<32s}({1:<2d}): {2:>5.3f}\n'.format(label_name, label_id, iou))
+        f.write('class accuracies\n')
+        for i in range(len(VALID_CLASS_IDS)):
+            label_id = VALID_CLASS_IDS[i]
+            label_name = CLASS_LABELS[i]
+            acc = accs[label_name][0]
+            f.write('{0:<32s}({1:<2d}): {2:>5.3f}\n'.format(label_name, label_id, acc))
         f.write('\nconfusion matrix\n')
         f.write('\t\t\t')
         for i in range(len(VALID_CLASS_IDS)):
-            #f.write('\t{0:<14s}({1:<2d})'.format(CLASS_LABELS[i], VALID_CLASS_IDS[i]))
+            #f.write('\t{0:<32s}({1:<2d})'.format(CLASS_LABELS[i], VALID_CLASS_IDS[i]))
             f.write('{0:<8d}'.format(VALID_CLASS_IDS[i]))
         f.write('\n')
         for r in range(len(VALID_CLASS_IDS)):
-            f.write('{0:<14s}({1:<2d})'.format(CLASS_LABELS[r], VALID_CLASS_IDS[r]))
+            f.write('{0:<32s}({1:<2d})'.format(CLASS_LABELS[r], VALID_CLASS_IDS[r]))
             for c in range(len(VALID_CLASS_IDS)):
                 f.write('\t{0:>5.3f}'.format(confusion[VALID_CLASS_IDS[r],VALID_CLASS_IDS[c]]))
             f.write('\n')
@@ -123,18 +142,26 @@ def evaluate(pred_file, gt_file, output_file):
         confusion[gt_type][pred_type] += 1
 
     class_ious = {}
+    class_accs = {}
     for i in range(len(VALID_CLASS_IDS)):
         label_name = CLASS_LABELS[i]
         label_id = VALID_CLASS_IDS[i]
         class_ious[label_name] = get_iou(label_id, confusion)
+        class_accs[label_name] = get_acc(label_id, confusion)
     # print
     print 'classes          IoU'
     print '----------------------------'
     for i in range(len(VALID_CLASS_IDS)):
         label_name = CLASS_LABELS[i]
-        #print('{{0:<14s}: 1:>5.3f}'.format(label_name, class_ious[label_name][0]))
-        print('{0:<14s}: {1:>5.3f}   ({2:>6d}/{3:<6d})'.format(label_name, class_ious[label_name][0], class_ious[label_name][1], class_ious[label_name][2]))
-    write_result_file(confusion, class_ious, output_file)
+        #print('{{0:<32s}: 1:>5.3f}'.format(label_name, class_ious[label_name][0]))
+        print('{0:<32s}: {1:>5.3f}   ({2:>6d}/{3:<6d})'.format(label_name, class_ious[label_name][0], class_ious[label_name][1], class_ious[label_name][2]))
+    print ''
+    print 'classes          acc'
+    print '----------------------------'
+    for i in range(len(VALID_CLASS_IDS)):
+        label_name = CLASS_LABELS[i]
+        print('{0:<32s}: {1:>5.3f}   ({2:>6d}/{3:<6d})'.format(label_name, class_accs[label_name][0], class_accs[label_name][1], class_accs[label_name][2]))
+    write_result_file(confusion, class_ious, class_accs, output_file)
 
 
 def main():
