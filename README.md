@@ -122,6 +122,7 @@ We provide code for several scene understanding benchmarks on ScanNet:
 * 3D object retrieval
 * Semantic voxel labeling
 
+Train/test splits are given at [Tasks/Benchmark](Tasks/Benchmark).   
 Label mappings and trained models can be downloaded with the ScanNet data release.
 
 See [Tasks](Tasks).
