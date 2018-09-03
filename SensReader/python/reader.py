@@ -12,7 +12,9 @@ parser.add_argument('--export_depth_images', dest='export_depth_images', action=
 parser.add_argument('--export_color_images', dest='export_color_images', action='store_true')
 parser.add_argument('--export_poses', dest='export_poses', action='store_true')
 parser.add_argument('--export_intrinsics', dest='export_intrinsics', action='store_true')
-parser.set_defaults(export_depth_images=False, export_color_images=False, export_poses=False, export_intrinsics=False)
+parser.add_argument('--export_point_clouds', dest='export_point_clouds', action='store_true')
+parser.set_defaults(export_depth_images=False, export_color_images=False, export_poses=False, export_intrinsics=False,
+                    export_point_clouds=False)
 
 opt = parser.parse_args()
 print(opt)
@@ -33,6 +35,8 @@ def main():
     sd.export_poses(os.path.join(opt.output_path, 'pose'))
   if opt.export_intrinsics:
     sd.export_intrinsics(os.path.join(opt.output_path, 'intrinsic'))
+  if opt.export_point_clouds:
+    sd.export_point_clouds(os.path.join(opt.output_path, 'point_clouds'))
 
 
 if __name__ == '__main__':
