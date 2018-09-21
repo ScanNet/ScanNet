@@ -4,6 +4,7 @@ import numpy as np
 import zlib
 import imageio
 import cv2
+from plyfile import PlyData, PlyElement
 
 COMPRESSION_TYPE_COLOR = {-1:'unknown', 0:'raw', 1:'png', 2:'jpeg'}
 COMPRESSION_TYPE_DEPTH = {-1:'unknown', 0:'raw_ushort', 1:'zlib_ushort', 2:'occi_ushort'}
@@ -120,7 +121,7 @@ class SensorData:
     self.save_mat_to_file(self.intrinsic_depth, os.path.join(output_path, 'intrinsic_depth.txt'))
     self.save_mat_to_file(self.extrinsic_depth, os.path.join(output_path, 'extrinsic_depth.txt'))
 
-  def export_point_clouds(self, output_path, frame_skip=1, pc_normalize=True):
+  def export_point_clouds(self, output_path, frame_skip=1, pc_normalize=True, output_type='ply'):
     if not os.path.exists(output_path):
       os.makedirs(output_path)
     print 'exporting', len(self.frames) // frame_skip, 'point clouds to', output_path
@@ -165,6 +166,23 @@ class SensorData:
         scale = np.max(np.sqrt(np.sum(pc_xyz ** 2, axis=1)))
         pc_xyz = pc_xyz / scale
 
-      pc = np.array(np.concatenate([pc_xyz, pc_color], axis=1)) # add center and normalize?
-      self.save_mat_to_file(pc, os.path.join(output_path, str(f) + '.txt'))
+      pc = np.array(np.concatenate([pc_xyz, pc_color], axis=1)).astype(np.float16) # add center and normalize?
+      if output_type == 'txt':
+        self.save_mat_to_file(pc, os.path.join(output_path, str(f) + '.txt'))
+      elif output_type == 'npy':
+        file_name = os.path.join(output_path, str(f) + '.npy')
+        np.save(file_name, pc)
+      else:
+        file_name = os.path.join(output_path, str(f) + '.ply')
+        new_vertices = []
+        for vertex in pc:
+          new_vertices.append(
+            (vertex[0], vertex[1], vertex[2], (255 * vertex[3]).astype(int), (255 * vertex[4]).astype(int),
+             (255 * vertex[5]).astype(int), vertex[6]))
+
+        new_vertices = np.array(new_vertices, dtype=[('x', 'f4'), ('y', 'f4'), ('z', 'f4'),
+                                                     ('red', 'u1'), ('green', 'u1'), ('blue', 'u1'), ('alpha', 'f4')])
+        el = PlyElement.describe(new_vertices, 'vertex')
+        PlyData([el]).write(file_name)
+
 
