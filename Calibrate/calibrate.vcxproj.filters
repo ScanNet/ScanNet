@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="src\aligner.h" />
+    <ClInclude Include="src\calibration.h" />
+    <ClInclude Include="src\grid3d.h" />
+    <ClInclude Include="src\main.h" />
+    <ClInclude Include="src\mLibInclude.h" />
+    <ClInclude Include="src\stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\aligner.cpp" />
+    <ClCompile Include="src\grid3d.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\mLibSource.cpp" />
+    <ClCompile Include="src\stdafx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="shaders\aligner.hlsl" />
+  </ItemGroup>
+</Project>
