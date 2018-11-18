@@ -1,0 +1,126 @@
+// 0=Kinect; 1=PrimeSense; 2=KinectOne; 3=BinaryDumpReader; 4=NetworkSensor; 5=IntelSensor; 6=RealSense; 7=StructureSensor; 8=SensorDataReader
+s_sensorIdx = 8;
+
+s_numSolveFramesBeforeExit = 60; //#frames to run after scan is done before saving ply and exiting; -1 to keep running
+s_overwriteOrigSensTrajectory = true;
+
+s_generateVideo = false;
+s_generateVideoDir = "output/";
+s_printTimingsDirectory = "";
+s_printConvergenceFile = "";
+s_topVideoTransformWorld = 1.0f 0.0f 0.0f 0.0f 0.0f 1.0f 0.0f 0.0f 0.0f 0.0f 1.0f 0.0f 0.0f 0.0f 0.0f 1.0f;
+s_topVideoCameraPose = 0.0f 0.0f 0.0f 0.0f; //rotation (deg around z axis), translation (m)
+s_topVideoMinMax = 0.0f 0.0f;
+
+s_windowWidth = 640;		//render window width
+s_windowHeight = 480;		//render window height
+//s_windowWidth = 1600;		//render window width
+//s_windowHeight = 1200;		//render window height
+
+s_integrationWidth = 320;	//input depth gets re-sampled to this width (decrease to improve perf.)
+s_integrationHeight = 240;	//input depth gets re-sampled to this height (decrease to improve perf.)
+s_rayCastWidth = 320;		//should be same as integration except if rendering video
+s_rayCastHeight = 240;
+
+//trajectory manager/reintegration
+s_maxFrameFixes = 30;		//max number of frames reintegrated per frame 
+s_topNActive = 30;			//max number of active elements to be reintegrated (sorted list)
+s_minPoseDistSqrt = 0.0f;	//reintegrate everything above that pose distance (squared dist)
+
+////////////////////////////////////
+// **** DEPTH SENSING BELOW ***** //
+////////////////////////////////////
+
+s_sensorDepthMax = 6.0f;	//maximum sensor depth in meter
+s_sensorDepthMin = 0.1f;	//minimum sensor depth in meter
+s_renderDepthMax = 6.0f;	//maximum render depth in meter
+s_renderDepthMin = 0.1f;	//minimum render depth in meter
+
+// cropping options for PrimeSense & Asus Xtion Pro
+s_enableColorCropping = false;
+s_colorCropX = 320;
+s_colorCropY = 272;
+s_colorCropWidth = 640;
+s_colorCropHeight = 480;
+
+// sdf and hash settings
+s_SDFVoxelSize = 0.010f;				//voxel size in meter (IMPORTANT: reduces to improve perf.)
+s_SDFMarchingCubeThreshFactor = 10.0f;	//marching cube thresh: s_SDFMarchingCubeThresh = s_SDFMarchingCubeThreshFactor*s_SDFVoxelSize
+s_SDFTruncation = 0.06f;				//truncation in meter
+s_SDFTruncationScale = 0.02f;			//truncation scale in meter per meter
+s_SDFMaxIntegrationDistance = 4.0f;		//maximum integration in meter
+s_SDFIntegrationWeightSample = 1;		//weight for an integrated depth value
+s_SDFIntegrationWeightMax = 99999999;	//maximum integration weight for a voxel
+// s_SDFBlockSize is pound defined (SDF_BLOCK_SIZE)
+// s_hashBucketSize is pound defined (HASH_BUCKET_SIZE)
+s_hashNumBuckets = 800000;				//smaller voxels require more space
+s_hashNumSDFBlocks = 600000;//100000;	//smaller voxels require more space
+s_hashMaxCollisionLinkedListSize = 7;
+
+// raycast
+s_SDFRayIncrementFactor = 0.8f;			//(don't touch) s_SDFRayIncrement = s_SDFRayIncrementFactor*s_SDFTrunaction;
+s_SDFRayThresSampleDistFactor = 50.5f;	//(don't touch) s_SDFRayThresSampleDist = s_SDFRayThresSampleDistFactor*s_rayIncrement;
+s_SDFRayThresDistFactor = 50.0f;		//(don't touch) s_SDFRayThresDist = s_SDFRayThresSampleDistFactor*s_rayIncrement;
+s_SDFUseGradients 		= false;		//analytic gradients for rendering
+
+
+s_binaryDumpSensorFile = "";
+s_binaryDumpSensorUseTrajectory = false;
+
+// filtering (unused in FriedLiver)
+s_depthSigmaD = 2.0f;	//bilateral filter sigma domain
+s_depthSigmaR = 0.1f;	//bilateral filter sigma range
+s_depthFilter = false;	//bilateral filter enabled depth
+
+s_colorSigmaD = 2.0f;	//bilateral filter sigma domain
+s_colorSigmaR = 0.1f;	//bilateral filter sigma range
+s_colorFilter = false;	//bilateral filter enabled depth
+
+s_integrationEnabled		= true;
+s_trackingEnabled			= true;
+s_timingsDetailledEnabled   = true;	//enable timing output
+s_timingsTotalEnabled		= false;	//enable timing output
+s_garbageCollectionEnabled	= true;
+s_garbageCollectionStarve	= 0;		//decrement the voxel weight every n'th frame
+
+// rendering
+s_materialShininess 	= 16.0f;
+s_materialAmbient   	= 0.75f 0.65f 0.5f 1.0f;
+s_materialDiffuse 		= 1.0f 0.9f 0.7f 1.0f;
+s_materialSpecular 		= 1.0f 1.0f 1.0f 1.0f;
+s_lightAmbient 			= 0.4f 0.4f 0.4f 1.0f;
+s_lightDiffuse 			= 0.6f 0.52944f 0.4566f 0.6f;
+s_lightSpecular 		= 0.3f 0.3f 0.3f 1.0f;
+s_lightDirection 		= 0.0f -1.0f 2.0f;
+
+s_RenderMode = 1;
+s_playData = true;
+
+s_renderingDepthDiscontinuityThresOffset = 0.012f;  // discontinuity offset in meter
+s_renderingDepthDiscontinuityThresLin	 = 0.001f; // additional discontinuity threshold per meter
+s_remappingDepthDiscontinuityThresOffset = 0.012f; // discontinuity offset in meter
+s_remappingDepthDiscontinuityThresLin	 = 0.01f;
+
+s_bUseCameraCalibration = false;
+
+s_marchingCubesMaxNumTriangles = 5000000; // max buffer size for marching cube
+
+//streaming parameters
+s_streamingEnabled = false;
+s_streamingVoxelExtents = 1.0f 1.0f 1.0f;
+s_streamingGridDimensions = 257 257 257; // dimensions have to be odd (number of samples)
+s_streamingMinGridPos = -128 -128 -128;
+s_streamingInitialChunkListSize = 2000;
+s_streamingRadius = 5.0f; // Depends on DepthMin and DepthMax 
+s_streamingPos = 0.0f 0.0f 3.0f 1.0f; // Depends on DepthMin and DepthMax
+s_streamingOutParts = 80;	// number of frames required to sweep through the entire hash
+
+//recording of the input data
+s_recordData = false;			// master flag for data recording: enables or disables data recording
+s_recordCompression = true;		//if recoding is enabled; then compression is used (.sens instead of .sensor)
+s_recordDataWidth = 640;		//only applies to the non compressed version (see RGBDSensor.cpp)
+s_recordDataHeight = 480;		//only applies to the non compressed version (see RGBDSensor.cpp)
+s_recordDataFile = "dump/recording.sens";
+s_reconstructionEnabled = true;
+
+

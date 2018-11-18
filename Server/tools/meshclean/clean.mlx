@@ -1,0 +1,11 @@
+<!DOCTYPE FilterScript>
+<FilterScript>
+ <filter name="Merge Close Vertices">
+  <Param min="0" max="0.106888" description="Merging distance" name="Threshold" tooltip="All the vertices that closer than this threshold are merged together. Use very small values, default values is 1/10000 of bounding box diagonal. " value="0.0010689" type="RichAbsPerc"/>
+ </filter>
+ <filter name="Remove Duplicate Faces"/>
+ <filter name="Remove Isolated pieces (wrt Face Num.)">
+  <Param description="Enter minimum conn. comp size:" name="MinComponentSize" tooltip="Delete all the connected components (floating pieces) composed by a number of triangles smaller than the specified one" value="7500" type="RichInt"/>
+ </filter>
+ <filter name="Remove Unreferenced Vertex"/>
+</FilterScript>
