@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="sensorData">
+      <UniqueIdentifier>{50fd99dc-5001-4643-abab-04f4c216b8a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="input">
+      <UniqueIdentifier>{555583f0-31b9-4962-b5da-bb3133d6e4d9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="src\mLibInclude.h" />
+    <ClInclude Include="input\bath.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="input\akitchen.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="input\aliving.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="input\luke.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="input\mliving.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="input\kitchen.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="input\bed.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="input\5a.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="input\5b.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="input\copy.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="input\gates362.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="input\gates381.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="input\manolis.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="input\lounge.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\metaData.h" />
+    <ClInclude Include="..\..\mLib\include\ext-depthcamera\sensorData.h">
+      <Filter>sensorData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mLib\include\ext-depthcamera\sensorData\uplinksimple_image-codecs.h">
+      <Filter>sensorData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mLib\include\ext-depthcamera\sensorData\uplinksimple_memory.h">
+      <Filter>sensorData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mLib\include\ext-depthcamera\sensorData\uplinksimple_shift2depth.h">
+      <Filter>sensorData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mLib\include\ext-depthcamera\sensorData\uplinksimple_windows-image-codecs.h">
+      <Filter>sensorData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mLib\include\ext-depthcamera\sensorData\stb_image.h">
+      <Filter>sensorData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mLib\include\ext-depthcamera\sensorData\stb_image_write.h">
+      <Filter>sensorData</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\mLib\include\ext-depthcamera\sensorData\uplinksimple.h">
+      <Filter>sensorData</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+</Project>
