@@ -264,7 +264,7 @@ def assign_instances_for_scan(pred_file, gt_file, pred_path):
         pred2gt[label] = []
     num_pred_instances = 0
     # mask of void labels in the groundtruth
-    bool_void = np.in1d(gt_ids, VALID_CLASS_IDS)
+    bool_void = np.logical_not(np.in1d(gt_ids//1000, VALID_CLASS_IDS))
     # go thru all prediction masks
     for pred_mask_file in pred_info:
         label_id = int(pred_info[pred_mask_file]['label_id'])
