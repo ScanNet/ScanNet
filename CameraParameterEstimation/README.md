@@ -3,7 +3,7 @@ Structured Light Camera Calibration
 
 This repository includes set of Matlab scripts and C++ programs used for
 calibration of structured light depth camera. Specifically, we have calibrated 
-a set of Structure Sensor Cameras from Occipital [link](http://http://occipital.com)
+a set of Structure Sensor Cameras from [Occipital](http://http://occipital.com)
 
 We perform two types of calibration:
   1. Depth-To-Color Calibration

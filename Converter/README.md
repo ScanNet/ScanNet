@@ -1,7 +1,7 @@
 ## Converter from ScannerApp capture to .sens data
 ===============================================
 
-Converts raw capture data (`.h264`, `.depth`, `.txt`, `.imu`) from the ScannerApp to `.sens` format.
+Converts raw capture data (`.h264`, `.depth`, `.txt`, `.imu`) output from the ScannerApp to `.sens` format.
 
 ### Installation.
 This code was developed under VS2013.
