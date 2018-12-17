@@ -20,24 +20,16 @@ struct SensorData {
 	std::vector<IMUFrame> m_IMUFrames;
 }
 
-class RGBDFrame {
-	UINT64 m_colorSizeBytes;			//compressed byte size
-	UINT64 m_depthSizeBytes;			//compressed byte size
-	unsigned char* m_colorCompressed;		//compressed color data
-	unsigned char* m_depthCompressed;		//compressed depth data
-	UINT64 m_timeStampColor;			//time stamp color (convection: in microseconds)
-	UINT64 m_timeStampDepth;			//time stamp depth (convention: in microseconds)
-	mat4f m_cameraToWorld;				//camera trajectory: from current frame to base(world) frame
-}
-
-struct IMUFrame {
-	vec3d rotationRate;				//angular velocity (raw data)
-	vec3d acceleration;				//acceleration in x,y,z direction (raw data)
-	vec3d magneticField;				//magnetometer data (raw data)
-	vec3d attitude;					//roll, pitch, yaw estimate (inferred)			
-	vec3d gravity;					//gravitation dir estimate (inferred)	
-	UINT64 timeStamp;				//timestamp (typically in microseconds)
-}
+// example get color frame, depth frame, pose (camera to world)
+SensorData sd("sensfile.sens");
+unsigned int frame = 0;
+vec3uc* color = sd.decompressColorAlloc(frame);		// note: must be freed after use
+unsigned short* depth = sd.decompressDepthAlloc(frame);	// note: must be freed after use
+const mat4f cameraToWorld = sd.m_frames[frame].getCameraToWorld();
+std::free(color);
+std::free(depth);
+// if using mlib, can save a frame to a point cloud with:
+sd.saveToPointCloud("frame" + std::to_string(frame) + ".ply", frame);
 ```
 
 ## C++ ToolKit
