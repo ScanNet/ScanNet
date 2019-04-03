@@ -4,7 +4,7 @@ ScanNet is an RGB-D video dataset containing 2.5 million views in more than 1500
 
 ## ScanNet Data
 
-If you would like to download the ScanNet data, please fill out an agreement to the [ScanNet Terms of Use](http://dovahkiin.stanford.edu/scannet-public/ScanNet_TOS.pdf) and send it to us at scannet@googlegroups.com.
+If you would like to download the ScanNet data, please fill out an agreement to the [ScanNet Terms of Use](http://kaldir.vc.in.tum.de/scannet/ScanNet_TOS.pdf) and send it to us at scannet@googlegroups.com.
 
 If you have not received a response within a week, it is likely that your email is bouncing - please check this before sending repeat requests.
 
@@ -151,6 +151,6 @@ If you have any questions, please contact us at scannet@googlegroups.com
 ## Changelog
 
 ## License
-The data is released under the [ScanNet Terms of Use](http://dovahkiin.stanford.edu/scannet-public/ScanNet_TOS.pdf), and the code is released under the MIT license.
+The data is released under the [ScanNet Terms of Use](http://kaldir.vc.in.tum.de/scannet/ScanNet_TOS.pdf), and the code is released under the MIT license.
 
 Copyright (c) 2017
