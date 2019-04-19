@@ -145,50 +145,50 @@ NSString *const kGPUImageHistogramAccumulationFragmentShaderString = SHADER_STRI
             runSynchronouslyOnVideoProcessingQueue(^{
                 [GPUImageContext useImageProcessingContext];
                 
-                secondFilterProgram = [[GPUImageContext sharedImageProcessingContext] programForVertexShaderString:kGPUImageGreenHistogramSamplingVertexShaderString fragmentShaderString:kGPUImageHistogramAccumulationFragmentShaderString];
-                thirdFilterProgram = [[GPUImageContext sharedImageProcessingContext] programForVertexShaderString:kGPUImageBlueHistogramSamplingVertexShaderString fragmentShaderString:kGPUImageHistogramAccumulationFragmentShaderString];
+                self->secondFilterProgram = [[GPUImageContext sharedImageProcessingContext] programForVertexShaderString:kGPUImageGreenHistogramSamplingVertexShaderString fragmentShaderString:kGPUImageHistogramAccumulationFragmentShaderString];
+                self->thirdFilterProgram = [[GPUImageContext sharedImageProcessingContext] programForVertexShaderString:kGPUImageBlueHistogramSamplingVertexShaderString fragmentShaderString:kGPUImageHistogramAccumulationFragmentShaderString];
                 
-                if (!secondFilterProgram.initialized)
+                if (!self->secondFilterProgram.initialized)
                 {
                     [self initializeSecondaryAttributes];
                     
-                    if (![secondFilterProgram link])
+                    if (![self->secondFilterProgram link])
                     {
-                        NSString *progLog = [secondFilterProgram programLog];
+                        NSString *progLog = [self->secondFilterProgram programLog];
                         NSLog(@"Program link log: %@", progLog);
-                        NSString *fragLog = [secondFilterProgram fragmentShaderLog];
+                        NSString *fragLog = [self->secondFilterProgram fragmentShaderLog];
                         NSLog(@"Fragment shader compile log: %@", fragLog);
-                        NSString *vertLog = [secondFilterProgram vertexShaderLog];
+                        NSString *vertLog = [self->secondFilterProgram vertexShaderLog];
                         NSLog(@"Vertex shader compile log: %@", vertLog);
-                        filterProgram = nil;
+                        self->filterProgram = nil;
                         NSAssert(NO, @"Filter shader link failed");
 
                     }
 
-                    [GPUImageContext setActiveShaderProgram:secondFilterProgram];
+                    [GPUImageContext setActiveShaderProgram:self->secondFilterProgram];
                     
-                    glEnableVertexAttribArray(secondFilterPositionAttribute);
+                    glEnableVertexAttribArray(self->secondFilterPositionAttribute);
                     
-                    if (![thirdFilterProgram link])
+                    if (![self->thirdFilterProgram link])
                     {
-                        NSString *progLog = [secondFilterProgram programLog];
+                        NSString *progLog = [self->secondFilterProgram programLog];
                         NSLog(@"Program link log: %@", progLog);
-                        NSString *fragLog = [secondFilterProgram fragmentShaderLog];
+                        NSString *fragLog = [self->secondFilterProgram fragmentShaderLog];
                         NSLog(@"Fragment shader compile log: %@", fragLog);
-                        NSString *vertLog = [secondFilterProgram vertexShaderLog];
+                        NSString *vertLog = [self->secondFilterProgram vertexShaderLog];
                         NSLog(@"Vertex shader compile log: %@", vertLog);
-                        filterProgram = nil;
+                        self->filterProgram = nil;
                         NSAssert(NO, @"Filter shader link failed");
                     }
                 }
                 
-                secondFilterPositionAttribute = [secondFilterProgram attributeIndex:@"position"];
+                self->secondFilterPositionAttribute = [self->secondFilterProgram attributeIndex:@"position"];
                 
                 
-                thirdFilterPositionAttribute = [thirdFilterProgram attributeIndex:@"position"];
-                [GPUImageContext setActiveShaderProgram:thirdFilterProgram];
+                self->thirdFilterPositionAttribute = [self->thirdFilterProgram attributeIndex:@"position"];
+                [GPUImageContext setActiveShaderProgram:self->thirdFilterProgram];
                 
-                glEnableVertexAttribArray(thirdFilterPositionAttribute);
+                glEnableVertexAttribArray(self->thirdFilterPositionAttribute);
             });
         }; break;
     }

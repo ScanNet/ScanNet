@@ -58,10 +58,10 @@ NSString *const kGPUImageFourInputTextureVertexShaderString = SHADER_STRING
     
     runSynchronouslyOnVideoProcessingQueue(^{
         [GPUImageContext useImageProcessingContext];
-        filterFourthTextureCoordinateAttribute = [filterProgram attributeIndex:@"inputTextureCoordinate4"];
+        self->filterFourthTextureCoordinateAttribute = [self->filterProgram attributeIndex:@"inputTextureCoordinate4"];
         
-        filterInputTextureUniform4 = [filterProgram uniformIndex:@"inputImageTexture4"]; // This does assume a name of "inputImageTexture3" for the third input texture in the fragment shader
-        glEnableVertexAttribArray(filterFourthTextureCoordinateAttribute);
+        self->filterInputTextureUniform4 = [self->filterProgram uniformIndex:@"inputImageTexture4"]; // This does assume a name of "inputImageTexture3" for the third input texture in the fragment shader
+        glEnableVertexAttribArray(self->filterFourthTextureCoordinateAttribute);
     });
     
     return self;

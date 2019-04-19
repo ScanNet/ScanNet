@@ -19,7 +19,7 @@
     textureSize = newTextureSize;
 
     runSynchronouslyOnVideoProcessingQueue(^{
-        outputFramebuffer = [[GPUImageFramebuffer alloc] initWithSize:newTextureSize overriddenTexture:newInputTexture];
+        self->outputFramebuffer = [[GPUImageFramebuffer alloc] initWithSize:newTextureSize overriddenTexture:newInputTexture];
     });
     
     return self;
@@ -31,13 +31,13 @@
 - (void)processTextureWithFrameTime:(CMTime)frameTime;
 {
     runAsynchronouslyOnVideoProcessingQueue(^{
-        for (id<GPUImageInput> currentTarget in targets)
+        for (id<GPUImageInput> currentTarget in self->targets)
         {
-            NSInteger indexOfObject = [targets indexOfObject:currentTarget];
-            NSInteger targetTextureIndex = [[targetTextureIndices objectAtIndex:indexOfObject] integerValue];
+            NSInteger indexOfObject = [self->targets indexOfObject:currentTarget];
+            NSInteger targetTextureIndex = [[self->targetTextureIndices objectAtIndex:indexOfObject] integerValue];
             
-            [currentTarget setInputSize:textureSize atIndex:targetTextureIndex];
-            [currentTarget setInputFramebuffer:outputFramebuffer atIndex:targetTextureIndex];
+            [currentTarget setInputSize:self->textureSize atIndex:targetTextureIndex];
+            [currentTarget setInputFramebuffer:self->outputFramebuffer atIndex:targetTextureIndex];
             [currentTarget newFrameReadyAtTime:frameTime atIndex:targetTextureIndex];
         }
     });

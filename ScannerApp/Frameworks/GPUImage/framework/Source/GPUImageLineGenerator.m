@@ -53,8 +53,8 @@ NSString *const kGPUImageLineGeneratorFragmentShaderString = SHADER_STRING
     }
     
     runSynchronouslyOnVideoProcessingQueue(^{
-        lineWidthUniform = [filterProgram uniformIndex:@"lineWidth"];
-        lineColorUniform = [filterProgram uniformIndex:@"lineColor"];
+        self->lineWidthUniform = [self->filterProgram uniformIndex:@"lineWidth"];
+        self->lineColorUniform = [self->filterProgram uniformIndex:@"lineColor"];
         
         self.lineWidth = 1.0;
         [self setLineColorRed:0.0 green:1.0 blue:0.0];
@@ -117,10 +117,10 @@ NSString *const kGPUImageLineGeneratorFragmentShaderString = SHADER_STRING
     }
     
     runSynchronouslyOnVideoProcessingQueue(^{
-        [GPUImageContext setActiveShaderProgram:filterProgram];
+        [GPUImageContext setActiveShaderProgram:self->filterProgram];
         
-        outputFramebuffer = [[GPUImageContext sharedFramebufferCache] fetchFramebufferForSize:[self sizeOfFBO] textureOptions:self.outputTextureOptions onlyTexture:NO];
-        [outputFramebuffer activateFramebuffer];
+        self->outputFramebuffer = [[GPUImageContext sharedFramebufferCache] fetchFramebufferForSize:[self sizeOfFBO] textureOptions:self.outputTextureOptions onlyTexture:NO];
+        [self->outputFramebuffer activateFramebuffer];
         
         glClearColor(0.0, 0.0, 0.0, 0.0);
         glClear(GL_COLOR_BUFFER_BIT);
@@ -129,7 +129,7 @@ NSString *const kGPUImageLineGeneratorFragmentShaderString = SHADER_STRING
         glBlendFunc(GL_ONE, GL_ONE);
         glEnable(GL_BLEND);
         
-        glVertexAttribPointer(filterPositionAttribute, 2, GL_FLOAT, 0, 0, lineCoordinates);
+        glVertexAttribPointer(self->filterPositionAttribute, 2, GL_FLOAT, 0, 0, self->lineCoordinates);
         glDrawArrays(GL_LINES, 0, ((unsigned int)numberOfLines * 2));
         
         glDisable(GL_BLEND);

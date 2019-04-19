@@ -383,64 +383,64 @@
     runSynchronouslyOnVideoProcessingQueue(^{
         [GPUImageContext useImageProcessingContext];
 
-        filterProgram = [[GPUImageContext sharedImageProcessingContext] programForVertexShaderString:newVertexShader fragmentShaderString:newFragmentShader];
+        self->filterProgram = [[GPUImageContext sharedImageProcessingContext] programForVertexShaderString:newVertexShader fragmentShaderString:newFragmentShader];
         
-        if (!filterProgram.initialized)
+        if (!self->filterProgram.initialized)
         {
             [self initializeAttributes];
             
-            if (![filterProgram link])
+            if (![self->filterProgram link])
             {
-                NSString *progLog = [filterProgram programLog];
+                NSString *progLog = [self->filterProgram programLog];
                 NSLog(@"Program link log: %@", progLog);
-                NSString *fragLog = [filterProgram fragmentShaderLog];
+                NSString *fragLog = [self->filterProgram fragmentShaderLog];
                 NSLog(@"Fragment shader compile log: %@", fragLog);
-                NSString *vertLog = [filterProgram vertexShaderLog];
+                NSString *vertLog = [self->filterProgram vertexShaderLog];
                 NSLog(@"Vertex shader compile log: %@", vertLog);
-                filterProgram = nil;
+                self->filterProgram = nil;
                 NSAssert(NO, @"Filter shader link failed");
             }
         }
         
-        filterPositionAttribute = [filterProgram attributeIndex:@"position"];
-        filterTextureCoordinateAttribute = [filterProgram attributeIndex:@"inputTextureCoordinate"];
-        filterInputTextureUniform = [filterProgram uniformIndex:@"inputImageTexture"]; // This does assume a name of "inputImageTexture" for the fragment shader
-        verticalPassTexelWidthOffsetUniform = [filterProgram uniformIndex:@"texelWidthOffset"];
-        verticalPassTexelHeightOffsetUniform = [filterProgram uniformIndex:@"texelHeightOffset"];
-        [GPUImageContext setActiveShaderProgram:filterProgram];
+        self->filterPositionAttribute = [self->filterProgram attributeIndex:@"position"];
+        self->filterTextureCoordinateAttribute = [self->filterProgram attributeIndex:@"inputTextureCoordinate"];
+        self->filterInputTextureUniform = [self->filterProgram uniformIndex:@"inputImageTexture"]; // This does assume a name of "inputImageTexture" for the fragment shader
+        self->verticalPassTexelWidthOffsetUniform = [self->filterProgram uniformIndex:@"texelWidthOffset"];
+        self->verticalPassTexelHeightOffsetUniform = [self->filterProgram uniformIndex:@"texelHeightOffset"];
+        [GPUImageContext setActiveShaderProgram:self->filterProgram];
 
-        glEnableVertexAttribArray(filterPositionAttribute);
-        glEnableVertexAttribArray(filterTextureCoordinateAttribute);
+        glEnableVertexAttribArray(self->filterPositionAttribute);
+        glEnableVertexAttribArray(self->filterTextureCoordinateAttribute);
 
-        secondFilterProgram = [[GPUImageContext sharedImageProcessingContext] programForVertexShaderString:newVertexShader fragmentShaderString:newFragmentShader];
+        self->secondFilterProgram = [[GPUImageContext sharedImageProcessingContext] programForVertexShaderString:newVertexShader fragmentShaderString:newFragmentShader];
         
-        if (!secondFilterProgram.initialized)
+        if (!self->secondFilterProgram.initialized)
         {
             [self initializeSecondaryAttributes];
             
-            if (![secondFilterProgram link])
+            if (![self->secondFilterProgram link])
             {
-                NSString *progLog = [secondFilterProgram programLog];
+                NSString *progLog = [self->secondFilterProgram programLog];
                 NSLog(@"Program link log: %@", progLog);
-                NSString *fragLog = [secondFilterProgram fragmentShaderLog];
+                NSString *fragLog = [self->secondFilterProgram fragmentShaderLog];
                 NSLog(@"Fragment shader compile log: %@", fragLog);
-                NSString *vertLog = [secondFilterProgram vertexShaderLog];
+                NSString *vertLog = [self->secondFilterProgram vertexShaderLog];
                 NSLog(@"Vertex shader compile log: %@", vertLog);
-                secondFilterProgram = nil;
+                self->secondFilterProgram = nil;
                 NSAssert(NO, @"Filter shader link failed");
             }
         }
         
-        secondFilterPositionAttribute = [secondFilterProgram attributeIndex:@"position"];
-        secondFilterTextureCoordinateAttribute = [secondFilterProgram attributeIndex:@"inputTextureCoordinate"];
-        secondFilterInputTextureUniform = [secondFilterProgram uniformIndex:@"inputImageTexture"]; // This does assume a name of "inputImageTexture" for the fragment shader
-        secondFilterInputTextureUniform2 = [secondFilterProgram uniformIndex:@"inputImageTexture2"]; // This does assume a name of "inputImageTexture2" for second input texture in the fragment shader
-        horizontalPassTexelWidthOffsetUniform = [secondFilterProgram uniformIndex:@"texelWidthOffset"];
-        horizontalPassTexelHeightOffsetUniform = [secondFilterProgram uniformIndex:@"texelHeightOffset"];
-        [GPUImageContext setActiveShaderProgram:secondFilterProgram];
+        self->secondFilterPositionAttribute = [self->secondFilterProgram attributeIndex:@"position"];
+        self->secondFilterTextureCoordinateAttribute = [self->secondFilterProgram attributeIndex:@"inputTextureCoordinate"];
+        self->secondFilterInputTextureUniform = [self->secondFilterProgram uniformIndex:@"inputImageTexture"]; // This does assume a name of "inputImageTexture" for the fragment shader
+        self->secondFilterInputTextureUniform2 = [self->secondFilterProgram uniformIndex:@"inputImageTexture2"]; // This does assume a name of "inputImageTexture2" for second input texture in the fragment shader
+        self->horizontalPassTexelWidthOffsetUniform = [self->secondFilterProgram uniformIndex:@"texelWidthOffset"];
+        self->horizontalPassTexelHeightOffsetUniform = [self->secondFilterProgram uniformIndex:@"texelHeightOffset"];
+        [GPUImageContext setActiveShaderProgram:self->secondFilterProgram];
 
-        glEnableVertexAttribArray(secondFilterPositionAttribute);
-        glEnableVertexAttribArray(secondFilterTextureCoordinateAttribute);
+        glEnableVertexAttribArray(self->secondFilterPositionAttribute);
+        glEnableVertexAttribArray(self->secondFilterTextureCoordinateAttribute);
         
         [self setupFilterForSize:[self sizeOfFBO]];
         glFinish();

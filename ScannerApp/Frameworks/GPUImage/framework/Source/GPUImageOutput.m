@@ -225,10 +225,10 @@ void reportAvailableMemoryForGPUImage(NSString *tag)
     cachedMaximumOutputSize = CGSizeZero;
     runSynchronouslyOnVideoProcessingQueue(^{
         [self setInputFramebufferForTarget:newTarget atIndex:textureLocation];
-        [targets addObject:newTarget];
-        [targetTextureIndices addObject:[NSNumber numberWithInteger:textureLocation]];
+        [self->targets addObject:newTarget];
+        [self->targetTextureIndices addObject:[NSNumber numberWithInteger:textureLocation]];
         
-        allTargetsWantMonochromeData = allTargetsWantMonochromeData && [newTarget wantsMonochromeInput];
+        self->allTargetsWantMonochromeData = self->allTargetsWantMonochromeData && [newTarget wantsMonochromeInput];
     });
 }
 
@@ -253,8 +253,8 @@ void reportAvailableMemoryForGPUImage(NSString *tag)
         [targetToRemove setInputSize:CGSizeZero atIndex:textureIndexOfTarget];
 		[targetToRemove setInputRotation:kGPUImageNoRotation atIndex:textureIndexOfTarget];
 
-        [targetTextureIndices removeObjectAtIndex:indexOfObject];
-        [targets removeObject:targetToRemove];
+        [self->targetTextureIndices removeObjectAtIndex:indexOfObject];
+        [self->targets removeObject:targetToRemove];
         [targetToRemove endProcessing];
     });
 }
@@ -263,18 +263,18 @@ void reportAvailableMemoryForGPUImage(NSString *tag)
 {
     cachedMaximumOutputSize = CGSizeZero;
     runSynchronouslyOnVideoProcessingQueue(^{
-        for (id<GPUImageInput> targetToRemove in targets)
+        for (id<GPUImageInput> targetToRemove in self->targets)
         {
-            NSInteger indexOfObject = [targets indexOfObject:targetToRemove];
-            NSInteger textureIndexOfTarget = [[targetTextureIndices objectAtIndex:indexOfObject] integerValue];
+            NSInteger indexOfObject = [self->targets indexOfObject:targetToRemove];
+            NSInteger textureIndexOfTarget = [[self->targetTextureIndices objectAtIndex:indexOfObject] integerValue];
             
             [targetToRemove setInputSize:CGSizeZero atIndex:textureIndexOfTarget];
             [targetToRemove setInputRotation:kGPUImageNoRotation atIndex:textureIndexOfTarget];
         }
-        [targets removeAllObjects];
-        [targetTextureIndices removeAllObjects];
+        [self->targets removeAllObjects];
+        [self->targetTextureIndices removeAllObjects];
         
-        allTargetsWantMonochromeData = YES;
+        self->allTargetsWantMonochromeData = YES;
     });
 }
 

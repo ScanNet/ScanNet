@@ -168,25 +168,25 @@ NSString *const kGPUImageColorAveragingFragmentShaderString = SHADER_STRING
         NSAssert(self.outputTextureOptions.internalFormat == GL_RGBA, @"The output texture internal format for this filter must be GL_RGBA.");
         NSAssert(self.outputTextureOptions.type == GL_UNSIGNED_BYTE, @"The type of the output texture of this filter must be GL_UNSIGNED_BYTE.");
         
-        NSUInteger totalNumberOfPixels = round(finalStageSize.width * finalStageSize.height);
+        NSUInteger totalNumberOfPixels = round(self->finalStageSize.width * self->finalStageSize.height);
         
-        if (rawImagePixels == NULL)
+        if (self->rawImagePixels == NULL)
         {
-            rawImagePixels = (GLubyte *)malloc(totalNumberOfPixels * 4);
+            self->rawImagePixels = (GLubyte *)malloc(totalNumberOfPixels * 4);
         }
         
         [GPUImageContext useImageProcessingContext];
-        [outputFramebuffer activateFramebuffer];
-        glReadPixels(0, 0, (int)finalStageSize.width, (int)finalStageSize.height, GL_RGBA, GL_UNSIGNED_BYTE, rawImagePixels);
+        [self->outputFramebuffer activateFramebuffer];
+        glReadPixels(0, 0, (int)self->finalStageSize.width, (int)self->finalStageSize.height, GL_RGBA, GL_UNSIGNED_BYTE, self->rawImagePixels);
         
         NSUInteger redTotal = 0, greenTotal = 0, blueTotal = 0, alphaTotal = 0;
         NSUInteger byteIndex = 0;
         for (NSUInteger currentPixel = 0; currentPixel < totalNumberOfPixels; currentPixel++)
         {
-            redTotal += rawImagePixels[byteIndex++];
-            greenTotal += rawImagePixels[byteIndex++];
-            blueTotal += rawImagePixels[byteIndex++];
-            alphaTotal += rawImagePixels[byteIndex++];
+            redTotal += self->rawImagePixels[byteIndex++];
+            greenTotal += self->rawImagePixels[byteIndex++];
+            blueTotal += self->rawImagePixels[byteIndex++];
+            alphaTotal += self->rawImagePixels[byteIndex++];
         }
         
         CGFloat normalizedRedTotal = (CGFloat)redTotal / (CGFloat)totalNumberOfPixels / 255.0;
@@ -194,9 +194,9 @@ NSString *const kGPUImageColorAveragingFragmentShaderString = SHADER_STRING
         CGFloat normalizedBlueTotal = (CGFloat)blueTotal / (CGFloat)totalNumberOfPixels / 255.0;
         CGFloat normalizedAlphaTotal = (CGFloat)alphaTotal / (CGFloat)totalNumberOfPixels / 255.0;
         
-        if (_colorAverageProcessingFinishedBlock != NULL)
+        if (self->_colorAverageProcessingFinishedBlock != NULL)
         {
-            _colorAverageProcessingFinishedBlock(normalizedRedTotal, normalizedGreenTotal, normalizedBlueTotal, normalizedAlphaTotal, frameTime);
+            self->_colorAverageProcessingFinishedBlock(normalizedRedTotal, normalizedGreenTotal, normalizedBlueTotal, normalizedAlphaTotal, frameTime);
         }
     });
 }

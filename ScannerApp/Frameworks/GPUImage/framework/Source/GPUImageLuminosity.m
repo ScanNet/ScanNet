@@ -127,37 +127,37 @@ NSString *const kGPUImageLuminosityFragmentShaderString = SHADER_STRING
     runSynchronouslyOnVideoProcessingQueue(^{
         [GPUImageContext useImageProcessingContext];
         
-        secondFilterProgram = [[GPUImageContext sharedImageProcessingContext] programForVertexShaderString:kGPUImageColorAveragingVertexShaderString fragmentShaderString:kGPUImageLuminosityFragmentShaderString];
+        self->secondFilterProgram = [[GPUImageContext sharedImageProcessingContext] programForVertexShaderString:kGPUImageColorAveragingVertexShaderString fragmentShaderString:kGPUImageLuminosityFragmentShaderString];
         
-        if (!secondFilterProgram.initialized)
+        if (!self->secondFilterProgram.initialized)
         {
             [self initializeSecondaryAttributes];
             
-            if (![secondFilterProgram link])
+            if (![self->secondFilterProgram link])
             {
-                NSString *progLog = [secondFilterProgram programLog];
+                NSString *progLog = [self->secondFilterProgram programLog];
                 NSLog(@"Program link log: %@", progLog);
-                NSString *fragLog = [secondFilterProgram fragmentShaderLog];
+                NSString *fragLog = [self->secondFilterProgram fragmentShaderLog];
                 NSLog(@"Fragment shader compile log: %@", fragLog);
-                NSString *vertLog = [secondFilterProgram vertexShaderLog];
+                NSString *vertLog = [self->secondFilterProgram vertexShaderLog];
                 NSLog(@"Vertex shader compile log: %@", vertLog);
-                filterProgram = nil;
+                self->filterProgram = nil;
                 NSAssert(NO, @"Filter shader link failed");
             }
         }
         
-        secondFilterPositionAttribute = [secondFilterProgram attributeIndex:@"position"];
-        secondFilterTextureCoordinateAttribute = [secondFilterProgram attributeIndex:@"inputTextureCoordinate"];
-        secondFilterInputTextureUniform = [secondFilterProgram uniformIndex:@"inputImageTexture"]; // This does assume a name of "inputImageTexture" for the fragment shader
-        secondFilterInputTextureUniform2 = [secondFilterProgram uniformIndex:@"inputImageTexture2"]; // This does assume a name of "inputImageTexture2" for second input texture in the fragment shader
+        self->secondFilterPositionAttribute = [self->secondFilterProgram attributeIndex:@"position"];
+        self->secondFilterTextureCoordinateAttribute = [self->secondFilterProgram attributeIndex:@"inputTextureCoordinate"];
+        self->secondFilterInputTextureUniform = [self->secondFilterProgram uniformIndex:@"inputImageTexture"]; // This does assume a name of "inputImageTexture" for the fragment shader
+        self->secondFilterInputTextureUniform2 = [self->secondFilterProgram uniformIndex:@"inputImageTexture2"]; // This does assume a name of "inputImageTexture2" for second input texture in the fragment shader
         
-        secondFilterTexelWidthUniform = [secondFilterProgram uniformIndex:@"texelWidth"];
-        secondFilterTexelHeightUniform = [secondFilterProgram uniformIndex:@"texelHeight"];
+        self->secondFilterTexelWidthUniform = [self->secondFilterProgram uniformIndex:@"texelWidth"];
+        self->secondFilterTexelHeightUniform = [self->secondFilterProgram uniformIndex:@"texelHeight"];
 
-        [GPUImageContext setActiveShaderProgram:secondFilterProgram];
+        [GPUImageContext setActiveShaderProgram:self->secondFilterProgram];
         
-        glEnableVertexAttribArray(secondFilterPositionAttribute);
-        glEnableVertexAttribArray(secondFilterTextureCoordinateAttribute);
+        glEnableVertexAttribArray(self->secondFilterPositionAttribute);
+        glEnableVertexAttribArray(self->secondFilterTextureCoordinateAttribute);
     });
 
     return self;
@@ -296,31 +296,31 @@ NSString *const kGPUImageLuminosityFragmentShaderString = SHADER_STRING
         NSAssert(self.outputTextureOptions.internalFormat == GL_RGBA, @"The output texture format for this filter must be GL_RGBA.");
         NSAssert(self.outputTextureOptions.type == GL_UNSIGNED_BYTE, @"The type of the output texture of this filter must be GL_UNSIGNED_BYTE.");
         
-        NSUInteger totalNumberOfPixels = round(finalStageSize.width * finalStageSize.height);
+        NSUInteger totalNumberOfPixels = round(self->finalStageSize.width * self->finalStageSize.height);
         
-        if (rawImagePixels == NULL)
+        if (self->rawImagePixels == NULL)
         {
-            rawImagePixels = (GLubyte *)malloc(totalNumberOfPixels * 4);
+            self->rawImagePixels = (GLubyte *)malloc(totalNumberOfPixels * 4);
         }
         
         [GPUImageContext useImageProcessingContext];
-        [outputFramebuffer activateFramebuffer];
+        [self->outputFramebuffer activateFramebuffer];
 
-        glReadPixels(0, 0, (int)finalStageSize.width, (int)finalStageSize.height, GL_RGBA, GL_UNSIGNED_BYTE, rawImagePixels);
+        glReadPixels(0, 0, (int)self->finalStageSize.width, (int)self->finalStageSize.height, GL_RGBA, GL_UNSIGNED_BYTE, self->rawImagePixels);
         
         NSUInteger luminanceTotal = 0;
         NSUInteger byteIndex = 0;
         for (NSUInteger currentPixel = 0; currentPixel < totalNumberOfPixels; currentPixel++)
         {
-            luminanceTotal += rawImagePixels[byteIndex];
+            luminanceTotal += self->rawImagePixels[byteIndex];
             byteIndex += 4;
         }
         
         CGFloat normalizedLuminosityTotal = (CGFloat)luminanceTotal / (CGFloat)totalNumberOfPixels / 255.0;
         
-        if (_luminosityProcessingFinishedBlock != NULL)
+        if (self->_luminosityProcessingFinishedBlock != NULL)
         {
-            _luminosityProcessingFinishedBlock(normalizedLuminosityTotal, frameTime);
+            self->_luminosityProcessingFinishedBlock(normalizedLuminosityTotal, frameTime);
         }
     });
 }

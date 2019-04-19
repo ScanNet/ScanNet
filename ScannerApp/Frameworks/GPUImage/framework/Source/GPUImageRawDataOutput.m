@@ -261,16 +261,16 @@
             if ([GPUImageContext supportsFastTextureUpload])
             {
                 glFinish();
-                _rawBytesForImage = [outputFramebuffer byteBuffer];
+                self->_rawBytesForImage = [self->outputFramebuffer byteBuffer];
             }
             else
             {
-                glReadPixels(0, 0, imageSize.width, imageSize.height, GL_RGBA, GL_UNSIGNED_BYTE, _rawBytesForImage);
+                glReadPixels(0, 0, self->imageSize.width, self->imageSize.height, GL_RGBA, GL_UNSIGNED_BYTE, self->_rawBytesForImage);
                 // GL_EXT_read_format_bgra
                 //            glReadPixels(0, 0, imageSize.width, imageSize.height, GL_BGRA_EXT, GL_UNSIGNED_BYTE, _rawBytesForImage);
             }
           
-            hasReadFromTheCurrentFrame = YES;
+            self->hasReadFromTheCurrentFrame = YES;
 
         });
         

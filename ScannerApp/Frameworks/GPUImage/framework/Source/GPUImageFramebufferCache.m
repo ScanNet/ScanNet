@@ -84,7 +84,7 @@
 //    dispatch_sync(framebufferCacheQueue, ^{
     runSynchronouslyOnVideoProcessingQueue(^{
         NSString *lookupHash = [self hashForSize:framebufferSize textureOptions:textureOptions onlyTexture:onlyTexture];
-        NSNumber *numberOfMatchingTexturesInCache = [framebufferTypeCounts objectForKey:lookupHash];
+        NSNumber *numberOfMatchingTexturesInCache = [self->framebufferTypeCounts objectForKey:lookupHash];
         NSInteger numberOfMatchingTextures = [numberOfMatchingTexturesInCache integerValue];
         
         if ([numberOfMatchingTexturesInCache integerValue] < 1)
@@ -99,19 +99,19 @@
             while ((framebufferFromCache == nil) && (currentTextureID >= 0))
             {
                 NSString *textureHash = [NSString stringWithFormat:@"%@-%ld", lookupHash, (long)currentTextureID];
-                framebufferFromCache = [framebufferCache objectForKey:textureHash];
+                framebufferFromCache = [self->framebufferCache objectForKey:textureHash];
                 // Test the values in the cache first, to see if they got invalidated behind our back
                 if (framebufferFromCache != nil)
                 {
                     // Withdraw this from the cache while it's in use
-                    [framebufferCache removeObjectForKey:textureHash];
+                    [self->framebufferCache removeObjectForKey:textureHash];
                 }
                 currentTextureID--;
             }
             
             currentTextureID++;
             
-            [framebufferTypeCounts setObject:[NSNumber numberWithInteger:currentTextureID] forKey:lookupHash];
+            [self->framebufferTypeCounts setObject:[NSNumber numberWithInteger:currentTextureID] forKey:lookupHash];
             
             if (framebufferFromCache == nil)
             {
@@ -147,14 +147,14 @@
         CGSize framebufferSize = framebuffer.size;
         GPUTextureOptions framebufferTextureOptions = framebuffer.textureOptions;
         NSString *lookupHash = [self hashForSize:framebufferSize textureOptions:framebufferTextureOptions onlyTexture:framebuffer.missingFramebuffer];
-        NSNumber *numberOfMatchingTexturesInCache = [framebufferTypeCounts objectForKey:lookupHash];
+        NSNumber *numberOfMatchingTexturesInCache = [self->framebufferTypeCounts objectForKey:lookupHash];
         NSInteger numberOfMatchingTextures = [numberOfMatchingTexturesInCache integerValue];
         
         NSString *textureHash = [NSString stringWithFormat:@"%@-%ld", lookupHash, (long)numberOfMatchingTextures];
         
 //        [framebufferCache setObject:framebuffer forKey:textureHash cost:round(framebufferSize.width * framebufferSize.height * 4.0)];
-        [framebufferCache setObject:framebuffer forKey:textureHash];
-        [framebufferTypeCounts setObject:[NSNumber numberWithInteger:(numberOfMatchingTextures + 1)] forKey:lookupHash];
+        [self->framebufferCache setObject:framebuffer forKey:textureHash];
+        [self->framebufferTypeCounts setObject:[NSNumber numberWithInteger:(numberOfMatchingTextures + 1)] forKey:lookupHash];
     });
 }
 
@@ -162,8 +162,8 @@
 {
     runAsynchronouslyOnVideoProcessingQueue(^{
 //    dispatch_async(framebufferCacheQueue, ^{
-        [framebufferCache removeAllObjects];
-        [framebufferTypeCounts removeAllObjects];
+        [self->framebufferCache removeAllObjects];
+        [self->framebufferTypeCounts removeAllObjects];
 #if TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE
         CVOpenGLESTextureCacheFlush([[GPUImageContext sharedImageProcessingContext] coreVideoTextureCache], 0);
 #else
@@ -175,7 +175,7 @@
 {
     runAsynchronouslyOnVideoProcessingQueue(^{
 //    dispatch_async(framebufferCacheQueue, ^{
-        [activeImageCaptureList addObject:framebuffer];
+        [self->activeImageCaptureList addObject:framebuffer];
     });
 }
 
@@ -183,7 +183,7 @@
 {
     runAsynchronouslyOnVideoProcessingQueue(^{
 //  dispatch_async(framebufferCacheQueue, ^{
-        [activeImageCaptureList removeObject:framebuffer];
+        [self->activeImageCaptureList removeObject:framebuffer];
     });
 }
 
