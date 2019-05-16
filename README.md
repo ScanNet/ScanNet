@@ -82,6 +82,7 @@ Compressed binary format with per-frame color, depth, camera pose and other data
   "segmentsFile": "..." // id of the *.segs.json segmentation file referenced
 }
 ```
+[BenchmarkScripts/util_3d.py](BenchmarkScripts/util_3d.py) gives examples to parsing the semantic instance information from the `*.segs.json`, `*.aggregation.json`, and `*_vh_clean_2.ply` mesh file, with example semantic segmentation visualization in [BenchmarkScripts/3d_helpers/visualize_labels_on_mesh.py](BenchmarkScripts/3d_helpers/visualize_labels_on_mesh.py).
 
 **2d annotation projections (`*_2d-label.zip`, `*_2d-instance.zip`, `*_2d-label-filt.zip`, `*_2d-instance-filt.zip`)**:
 Projection of 3d aggregated annotation of a scan into its RGB-D frames, according to the computed camera trajectory. 
