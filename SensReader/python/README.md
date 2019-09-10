@@ -1,5 +1,7 @@
 # Data Exporter
 
+Developed and tested with python 2.7.
+
 Usage:
 ```
 python reader.py --filename [.sens file to export data from] --output_path [output directory to export data to]
