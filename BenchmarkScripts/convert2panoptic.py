@@ -16,6 +16,9 @@ import numpy as np
 from PIL import Image
 
 EVAL_LABELS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 16, 24, 28, 33, 34, 36, 39]
+EVAL_LABEL_NAMES = ["wall", "floor", "cabinet", "bed", "chair", "sofa", "table", "door", "window", "bookshelf", "picture", "counter", "desk", "curtain", "refrigerator", "shower curtain", "toilet", "sink", "bathtub", "otherfurniture"]
+EVAL_LABEL_CATS = ["indoor", "indoor", "furniture", "furniture", "furniture", "furniture", "furniture", "furniture", "furniture", "furniture", "furniture", "furniture", "furniture", "furniture", "appliance", "furniture", "furniture", "appliance", "furniture", "furniture"]
+EVAL_LABEL_COLORS = [(174, 199, 232), (152, 223, 138), (31, 119, 180), (255, 187, 120), (188, 189, 34), (140, 86, 75), (255, 152, 150), (214, 39, 40), (197, 176, 213), (148, 103, 189), (196, 156, 148), (23, 190, 207), (247, 182, 210), (219, 219, 141), (255, 127, 14), (158, 218, 229), (44, 160, 44), (112, 128, 144), (227, 119, 194), (82, 84, 163)]
 
 def splitall(path):
     allparts = []
@@ -59,6 +62,19 @@ def convert2panoptic(scannetPath, outputFolder=None):
         print("Creating folder {} for panoptic segmentation PNGs".format(panopticFolder))
         os.mkdir(panopticFolder)
     print("Corresponding segmentations in .png format will be saved in {}".format(panopticFolder))
+
+    categories = []
+    for idx in range(len(EVAL_LABELS)):
+        label = EVAL_LABELS[idx]
+        name = EVAL_LABEL_NAMES[idx]
+        cat = EVAL_LABEL_CATS[idx]
+        color = EVAL_LABEL_COLORS[idx]
+        isthing = label > 2
+        categories.append({'id': int(label),
+                           'name': name,
+                           'color': color,
+                           'supercategory': cat,
+                           'isthing': isthing})
 
     images = []
     annotations = []
@@ -136,7 +152,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--dataset-folder",
                         dest="scannetPath",
-                        help="path to the ScanNet data 'scenes_all' folder",
+                        help="path to the ScanNet data 'scannet_frames_25k' folder",
                         required=True,
                         type=str)
     parser.add_argument("--output-folder",
