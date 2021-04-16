@@ -34,7 +34,7 @@ ifeq ($(UNAME),Darwin)
 endif
 
 # Make targets
-all: clean make_directories calibration_explorer
+all: clean make_directories calibrate_depth
 
 calibrate_depth: $(OBJS)
 		$(CC) $(CPPFLAGS) $(OBJS) -o ${BIN_DIR}${EXE_NAME} $(LIBS)
@@ -43,7 +43,7 @@ clean:
 		rm -f $(OUT_DIR)*.a $(OUT_DIR)*.o ${BIN_DIR}${EXE_NAME} ${BIN_DIR}${EXE_NAME}.exe
 
 make_directories:
-		mkdir -p ../out; mkdir -p ../../bin	
+		mkdir -p ../out; mkdir -p ../../../bin	
 
 # Compile command
 $(OUT_DIR)%.o: %.cpp

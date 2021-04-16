@@ -85,7 +85,7 @@ __<lookup_table.lut>__. __calibrate_depth__ can use these when run in apply mode
 ~~~~~~~~
 calibrate_depth depth_distortion_calibration.conf --apply_undistortion <name_of_lookup_table.lut>
 ~~~~~~~~
-But this file formats will also work with [ScanNet](http://link) pipeline.
+But this file formats will also work with ScanNet pipeline.
 
 You can also run the __calibrate_depth__ without any argument to see how the
 images got undistorted.
@@ -108,3 +108,18 @@ well images are aligned.
 All calibration parameters are also exposed if some manual intervention is needed/wanted.
 You can pass __--output_parameters <parameters_filename.txt>__ to the 
 __calibration_explorer__ to be able to save the modified parameters.
+
+`validation.conf` file is a simple text file that lists all the input images and
+links to the __parameters.txt__ file.
+
+File should be formated as follows:
+~~~
+n_images <n_images>
+
+parameters <path to parameters.txt>
+scan <depth_image_name> <color_image_name>  1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1
+scan <depth_image_name> <color_image_name>  1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1
+scan <depth_image_name> <color_image_name>  1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1
+scan <depth_image_name> <color_image_name>  1 0 0 0  0 1 0 0  0 0 1 0  0 0 0 1
+...
+~~~
