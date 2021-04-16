@@ -611,10 +611,10 @@ ApplyUndistortion( const SequenceData * seq_data, const Options * opts )
     }
     std::string im_name = seq_data->image_names[im_idx];
     int name_length = im_name.length();
-    const char *img_name = im_name.substr(0, name_length - 4).c_str();
+    std::string img_name = im_name.substr(0, name_length - 4);
     char depth_name[256], depth_raw_name[256];
-    sprintf( depth_raw_name, "depth_raw/%s.png", img_name );
-    sprintf( depth_name, "depth/%s.png", img_name );
+    sprintf( depth_raw_name, "depth_raw/%s.png", img_name.c_str() );
+    sprintf( depth_name, "depth/%s.png", img_name.c_str() );
     raw_depth_im.read( depth_raw_name );
 
     for ( i32 j = 0; j < h; ++j )

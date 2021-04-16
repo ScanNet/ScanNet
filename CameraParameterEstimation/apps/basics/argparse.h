@@ -351,7 +351,7 @@ parse ( int argc, char** argv )
   int n_args = args_to_parse.size();
 
   // parse value to correct argument
-  auto parse_argument = [ &args_to_parse, &idx, n_args ]
+  auto parse_argument = [ &args_to_parse, &idx ]
                         ( std::string to_parse, 
                           argument<std::string>* str_arg, 
                           argument<char*>* cstr_arg, 

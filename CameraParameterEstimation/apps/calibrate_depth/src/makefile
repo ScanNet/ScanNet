@@ -29,7 +29,8 @@ ifeq ($(UNAME),Linux)
 endif
 
 ifeq ($(UNAME),Darwin)
-	LIBS += $(FRAMEWORKS) -lglew -lglfw3
+	LIBS += $(FRAMEWORKS) -lglew -lglfw
+	CPPFLAGS += -DGL_SILENCE_DEPRECATION
 endif
 
 # Make targets
@@ -41,6 +42,8 @@ calibrate_depth: $(OBJS)
 clean:
 		rm -f $(OUT_DIR)*.a $(OUT_DIR)*.o ${BIN_DIR}${EXE_NAME} ${BIN_DIR}${EXE_NAME}.exe
 
+make_directories:
+		mkdir -p ../out; mkdir -p ../../bin	
 
 # Compile command
 $(OUT_DIR)%.o: %.cpp
