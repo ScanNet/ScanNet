@@ -164,7 +164,7 @@ namespace bsc
   string_hash ( const char * str )
   {
     int hash = 0;
-    for ( int i = 0; i < strlen( str ) ; ++i )
+    for ( int i = 0; i < (int)strlen( str ) ; ++i )
       hash = hash * 65599 + str[i];
     return hash;
   }

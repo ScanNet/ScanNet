@@ -65,42 +65,25 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 #ifdef BSC_USE_WINDOW // Graphics through window
-  
-  // glew for opengl extension
-  // TODO(maciej): To be removed and replaced with some inline loader
-  #ifndef __EMSCRIPTEN__
-    #if defined(_WIN32) || defined(_WIN64)
-      #include "GL/glew.h"
-    #endif
-  #else
-    #define GLFW_INCLUDE_ES2
-  #endif
-
-  // glfw configuration
-  // TODO(maciej): Unlikely in near feature, but we might strip this.
-  #define GLFW_INCLUDE_GLCOREARB  /* don't drag in legacy GL headers. */
+  #define GLFW_INCLUDE_NONE
   #define GLFW_NO_GLU 
   #include "GLFW/glfw3.h"
-
-#else  // offscreen rendering
-
-  #ifdef __APPLE__
-    #include <OpenGL/gl3.h>
-    #include <OpenGL/OpenGL.h>
-    #include <OpenGL/CGLTypes.h>
-    #include <OpenGL/CGLCurrent.h>
-  #endif
-
-  #ifdef __unix__
-    #include <GL/glew.h>
-    #include <GL/gl.h>
-    #include <GL/glext.h>
-    #include <GL/osmesa.h>
-  #endif
-  
-  //TODO: Windows
-
 #endif
+
+#ifdef __APPLE__
+  #include <OpenGL/gl3.h>
+  #include <OpenGL/OpenGL.h>
+  #include <OpenGL/CGLTypes.h>
+  #include <OpenGL/CGLCurrent.h>
+#endif
+
+#if defined(__linux__)
+  #include <GL/glew.h>
+  #include <GL/gl.h>
+  #include <GL/glext.h>
+#endif
+  
+//TODO: Windows
 
 
 // tiny_dir for easy directory stepping and file name/extension tokenizing

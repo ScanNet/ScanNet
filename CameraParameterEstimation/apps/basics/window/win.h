@@ -120,8 +120,7 @@ create_window ( const char * title, const i32 width, const i32 height,
 
   // lets get gl extension from glew
   // TODO: need to replace this library
-  #if defined(_WIN32) || defined(_WIN64)
-  #ifndef __EMSCRIPTEN__
+  #if defined(_WIN32) || defined(_WIN64) || defined(__linux__)
     glewExperimental = GL_TRUE;
     if ( glewInit() != GLEW_OK )
     {
@@ -129,20 +128,6 @@ create_window ( const char * title, const i32 width, const i32 height,
       return 0;
     }
   #endif
-  #endif
-
-  // lets create the vector graphics context
-  #ifdef __EMSCRIPTEN__
-    // g_window.vg = nvgCreateGLES2( NVG_ANTIALIAS | NVG_STENCIL_STROKES );
-  #else
-    // g_window.vg = nvgCreateGL3( NVG_ANTIALIAS | NVG_STENCIL_STROKES );
-  #endif
-
-  // if ( g_window.vg == NULL )
-  // {
-    // printf( "Could not init nanovg\n" );
-    // return 0;
-  // }
 
   // some sane opengl defaults
   glEnable( GL_DEPTH_TEST );

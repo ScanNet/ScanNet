@@ -225,7 +225,7 @@ render_explorer_pointcloud( bsc::gpu_geometry *pointcloud_geo,
                             bool should_update, 
                             char * vs_src, char * fs_src )
 {
-  if ( pointcloud_geo->vao == -1 )
+  if ( pointcloud_geo->vao == (u32)-1 )
   {
     create_3d_pointcloud( pointcloud_geo, color_image, depth_image, K, true );
     bsc::create_shader_prog_from_source( vs_src, fs_src, pointcloud_shader );
@@ -345,7 +345,7 @@ transform_img ( const bsc::img_u16 *src,
   u32 n_pos = src->width * src->height;
   u32 size = n_pos * sizeof(bsc::vec3);
   vec3 * positions = (vec3*)malloc(size);
-  memset( positions, 0, size );
+  memset( (void*)positions, 0, size );
 
   // backproject
   for ( i32 y = 0 ; y < src->height ; y++ )

@@ -131,13 +131,11 @@ pan( bsc::camera * cam,
      const bsc::mat4 * view,
      const bsc::vec4i * viewport )
 {
-  ui::state & UI = get_UI();
 
   i8 is_mmb = ui::is_mouse_held( ui::mmb );
 
   if ( is_mmb )
   {
-    vec2d mouse_pos  = UI.mouse_pos;
     vec2d mouse_drag = ui::get_mouse_drag_delta ( ui::mmb );
     if ( norm( mouse_drag ) == 0 ) return false;
 

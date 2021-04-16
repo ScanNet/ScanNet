@@ -114,6 +114,7 @@ ReadParametersFile( bsc::mat3 &intrinsics,
                     bsc::mat4 &extrinsics, 
                     const char* filename )
 {
+  int success = 1;
   intrinsics = bsc::mat3();
   extrinsics = bsc::mat4();
   FILE * params_file = fopen( filename, "r" );
@@ -127,7 +128,6 @@ ReadParametersFile( bsc::mat3 &intrinsics,
     {
       char cmd[1024];
       line_number++;
-      bool success = 1;
       if (sscanf(buffer, "%s =", cmd) != (unsigned int)1)
       {
         continue;
@@ -172,7 +172,7 @@ ReadParametersFile( bsc::mat3 &intrinsics,
       }
     }
     fclose(params_file);
-    return 1;
+    return success;
   }
   
   printf( "Could not open parameters file %s\n", filename );
@@ -207,10 +207,12 @@ ReadPlanePoses( bsc::mat4 depth_to_color,
   {
     // Load in the plane pose
     bsc::mat4 pose;
-    fscanf(fp, "%f %f %f %f", &(pose[0][0]), &(pose[1][0]), &(pose[2][0]), &(pose[3][0]));
-    fscanf(fp, "%f %f %f %f", &(pose[0][1]), &(pose[1][1]), &(pose[2][1]), &(pose[3][1]));
-    fscanf(fp, "%f %f %f %f", &(pose[0][2]), &(pose[1][2]), &(pose[2][2]), &(pose[3][2]));
-    fscanf(fp, "%f %f %f %f", &(pose[0][3]), &(pose[1][3]), &(pose[2][3]), &(pose[3][3]));
+    int returned_bytes = 0;
+    returned_bytes = fscanf(fp, "%f %f %f %f", &(pose[0][0]), &(pose[1][0]), &(pose[2][0]), &(pose[3][0]));
+    returned_bytes = fscanf(fp, "%f %f %f %f", &(pose[0][1]), &(pose[1][1]), &(pose[2][1]), &(pose[3][1]));
+    returned_bytes = fscanf(fp, "%f %f %f %f", &(pose[0][2]), &(pose[1][2]), &(pose[2][2]), &(pose[3][2]));
+    returned_bytes = fscanf(fp, "%f %f %f %f", &(pose[0][3]), &(pose[1][3]), &(pose[2][3]), &(pose[3][3]));
+    (void)returned_bytes;
 
     plane_poses.push_back( color_to_depth * pose  );
   }

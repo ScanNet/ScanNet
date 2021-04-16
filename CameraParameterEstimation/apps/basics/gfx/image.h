@@ -262,13 +262,13 @@ read( const char * filename )
   if ( data != nullptr ) { free( data ); data=nullptr; }
 
   // determine extension
-  char * period = strrchr( filename, '.' );
+  const char * period = strrchr( filename, '.' );
   if ( period == NULL )
   {
     printf( "Image reading error -> No file extension\n" );
     return 0;
   }
-  char * extension = period + 1;
+  const char * extension = period + 1;
   
   // call appropriate function
   if ( !strcmp( extension, "jpg" ) || !strcmp( extension, "jpeg") )
@@ -379,14 +379,14 @@ template <typename T>
 i32 bsc::image<T>::
 write( const char * filename )
 {
-  char * period = strrchr( filename, '.' );
+  const char * period = strrchr( filename, '.' );
   if ( period == NULL )
   {
     error( "Image writing error", __LINE__, "No file extension" );
     return 0;
   }
 
-  char * extension = period + 1;
+  const char * extension = period + 1;
   if ( !strcmp( extension, "jpg" ) || !strcmp( extension, "jpeg") )
   {
     return write_jpg( filename, this );
