@@ -34,7 +34,7 @@ ifeq ($(UNAME),Darwin)
 endif
 
 # Make targets
-all: clean calibrate_depth
+all: clean make_directories calibration_explorer
 
 calibrate_depth: $(OBJS)
 		$(CC) $(CPPFLAGS) $(OBJS) -o ${BIN_DIR}${EXE_NAME} $(LIBS)
