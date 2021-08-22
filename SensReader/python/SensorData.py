@@ -4,6 +4,7 @@ import numpy as np
 import zlib
 import imageio
 import cv2
+from plyfile import PlyData, PlyElement
 
 COMPRESSION_TYPE_COLOR = {-1:'unknown', 0:'raw', 1:'png', 2:'jpeg'}
 COMPRESSION_TYPE_DEPTH = {-1:'unknown', 0:'raw_ushort', 1:'zlib_ushort', 2:'occi_ushort'}
@@ -119,3 +120,69 @@ class SensorData:
     self.save_mat_to_file(self.extrinsic_color, os.path.join(output_path, 'extrinsic_color.txt'))
     self.save_mat_to_file(self.intrinsic_depth, os.path.join(output_path, 'intrinsic_depth.txt'))
     self.save_mat_to_file(self.extrinsic_depth, os.path.join(output_path, 'extrinsic_depth.txt'))
+
+  def export_point_clouds(self, output_path, frame_skip=1, pc_normalize=True, output_type='ply'):
+    if not os.path.exists(output_path):
+      os.makedirs(output_path)
+    print 'exporting', len(self.frames) // frame_skip, 'point clouds to', output_path
+
+    intrinsicInv = np.linalg.inv(self.intrinsic_depth)
+
+    for f in range(0, len(self.frames), frame_skip):
+      color = self.frames[f].decompress_color(self.color_compression_type)
+      depth_data = self.frames[f].decompress_depth(self.depth_compression_type)
+      depth = np.fromstring(depth_data, dtype=np.uint16).reshape(self.depth_height, self.depth_width)
+      transform = self.frames[f].camera_to_world
+      if transform[0][0] == -float("inf") or transform[0][0] == 0:
+          transform = np.identity(4)
+
+      pc_xyz = []
+      pc_color = []
+      for y in range(self.depth_height):
+        for x in range(self.depth_width):
+
+          if depth[y][x] != 0:
+            # extract coordinates
+            d = float(depth[y][x]) / self.depth_shift
+            camera_pos = np.dot(intrinsicInv, np.array([float(x) * d, float(y) * d, d, 0.0]))
+            world_pos =  np.dot(transform, camera_pos)
+            pc_xyz.append(np.array(world_pos[0:3]))
+
+            # extract color
+            color_frame_pos = np.dot(self.extrinsic_depth, camera_pos)
+            color_coord = np.dot(self.intrinsic_color, color_frame_pos)
+            color_coord[0] = color_coord[0] / color_coord[2]
+            color_coord[1] = color_coord[1] / color_coord[2]
+            color_coord = np.round(color_coord).astype(int)
+            if 0 <= color_coord[0] < self.color_width and 0 <= color_coord[1] < self.color_height:
+              point_color = np.concatenate([color[color_coord[1]][color_coord[0]], [255.0]]) / 255.0
+            else:
+              point_color = np.array([0.0, 0.0, 0.0, 0.0])
+            pc_color.append(point_color)
+      if pc_normalize:
+        # center around COG an scale to unit sphere
+        center = np.mean(pc_xyz, axis=0)
+        pc_xyz = pc_xyz - center
+        scale = np.max(np.sqrt(np.sum(pc_xyz ** 2, axis=1)))
+        pc_xyz = pc_xyz / scale
+
+      pc = np.array(np.concatenate([pc_xyz, pc_color], axis=1)).astype(np.float16) # add center and normalize?
+      if output_type == 'txt':
+        self.save_mat_to_file(pc, os.path.join(output_path, str(f) + '.txt'))
+      elif output_type == 'npy':
+        file_name = os.path.join(output_path, str(f) + '.npy')
+        np.save(file_name, pc)
+      else:
+        file_name = os.path.join(output_path, str(f) + '.ply')
+        new_vertices = []
+        for vertex in pc:
+          new_vertices.append(
+            (vertex[0], vertex[1], vertex[2], (255 * vertex[3]).astype(int), (255 * vertex[4]).astype(int),
+             (255 * vertex[5]).astype(int), vertex[6]))
+
+        new_vertices = np.array(new_vertices, dtype=[('x', 'f4'), ('y', 'f4'), ('z', 'f4'),
+                                                     ('red', 'u1'), ('green', 'u1'), ('blue', 'u1'), ('alpha', 'f4')])
+        el = PlyElement.describe(new_vertices, 'vertex')
+        PlyData([el]).write(file_name)
+
+
