@@ -4,6 +4,7 @@ import numpy as np
 import zlib
 import imageio
 import cv2
+import png
 
 COMPRESSION_TYPE_COLOR = {-1:'unknown', 0:'raw', 1:'png', 2:'jpeg'}
 COMPRESSION_TYPE_DEPTH = {-1:'unknown', 0:'raw_ushort', 1:'zlib_ushort', 2:'occi_ushort'}
@@ -83,8 +84,11 @@ class SensorData:
       depth = np.fromstring(depth_data, dtype=np.uint16).reshape(self.depth_height, self.depth_width)
       if image_size is not None:
         depth = cv2.resize(depth, (image_size[1], image_size[0]), interpolation=cv2.INTER_NEAREST)
-      imageio.imwrite(os.path.join(output_path, str(f) + '.png'), depth)
-
+      #imageio.imwrite(os.path.join(output_path, str(f) + '.png'), depth)
+      with open(os.path.join(output_path, str(f) + '.png'), 'wb') as f: # write 16-bit
+        writer = png.Writer(width=depth.shape[1], height=depth.shape[0], bitdepth=16)
+        depth = depth.reshape(-1, depth.shape[1]).tolist()
+        writer.write(f, depth)
 
   def export_color_images(self, output_path, image_size=None, frame_skip=1):
     if not os.path.exists(output_path):
