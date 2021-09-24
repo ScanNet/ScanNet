@@ -11,6 +11,8 @@ Run:
 
 Hint: 	keep the sens files as they are a nice represention
 		see processFrame(..) to decode independent frames
+		
+For additional functionality (vector/matrix/point cloud classes, etc), include the mLib library: https://github.com/niessner/mLib.
 
 - tested under Windows10 VS2013
 - tested 14.04.1-Ubuntu: g++ and clang
