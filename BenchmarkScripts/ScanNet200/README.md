@@ -1,13 +1,13 @@
 # ScanNet200 Preprocessing Scripts and description 
 
 We provide the preprocessing scripts and benchmark data for the ScanNet200 Benchmark. 
-The raw scans and annotations are shared with the original [ScanNet benchmark](http://kaldir.vc.in.tum.de/scannet_benchmark), only the way of parsing it is different. 
+The raw scans and annotations are shared with the original [ScanNet benchmark](http://kaldir.vc.in.tum.de/scannet_benchmark); these scripts provided output semantic and instance labeled meshes according to the ScanNet200 categories. 
 
 Differences and similarities to the original benchmark
- - The ScanNet200 benchmark contains 200 categories in contrast with the original set of 20 classical semantic labels.
- - This new benchmark follows the original _train_/_val_/_test_ splits published in this repository, 
+ - The ScanNet200 benchmark evaluates 200 categories, an order of magnitude larger than the original set of 20 classical semantic labels.
+ - This new benchmark follows the original _train_/_val_/_test_ scene splits published in this repository, 
  - We presented a further split of the category sets into three sets based on their point and instance frequencies, namely **head**, **common**, and **tail**. The category splits can be found in `scannet200_split.py` file
- - The raw annotations in the training set containing 550 distinct categories, many of those only appearing once, so we reduced this extended set to the more reasonable, yet realistic and challenging 200 category setting. The mapping of annotation category IDs to ScanNet200 valid categories can be found in `scannet200_constants.py`.
+ - The raw annotations in the training set containing 550 distinct categories, many of which appear only once, and were filtered to produce the large-vocabulary, challenging ScanNet200 setting. The mapping of annotation category IDs to ScanNet200 valid categories can be found in `scannet200_constants.py`.
  - This larger vocabulary includes a strong natural imbalance and diversity for evaluating modern 3D scene understanding methods in a challenging scenario.   
 
 ![](docs/dataset_histograms.jpg)
