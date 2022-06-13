@@ -1,0 +1,15 @@
+certifi==2022.5.18.1
+joblib==1.1.0
+numpy==1.22.4
+pandas==1.4.2
+pip==21.2.4
+plyfile==0.7.4
+python-dateutil==2.8.2
+pytz==2022.1
+scikit-learn==1.1.1
+scipy==1.8.1
+setuptools==61.2.0
+six==1.16.0
+threadpoolctl==3.1.0
+trimesh==3.12.6
+wheel==0.37.1
