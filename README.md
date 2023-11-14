@@ -4,7 +4,7 @@ ScanNet is an RGB-D video dataset containing 2.5 million views in more than 1500
 
 ## ScanNet Data
 
-If you would like to download the ScanNet data, please fill out an agreement to the [ScanNet Terms of Use](http://kaldir.vc.in.tum.de/scannet/ScanNet_TOS.pdf) and send it to us at scannet@googlegroups.com.
+If you would like to download the ScanNet data, please fill out an agreement to the [ScanNet Terms of Use](http://kaldir.vc.in.tum.de/scannet/ScanNet_TOS.pdf), using your institutional email addresses, and send it to us at scannet@googlegroups.com. 
 
 If you have not received a response within a week, it is likely that your email is bouncing - please check this before sending repeat requests. Please do not reply to the noreply email - your email won't be seen.
 
