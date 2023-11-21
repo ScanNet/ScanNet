@@ -1,4 +1,4 @@
-certifi==2022.5.18.1
+certifi==2022.12.7
 joblib==1.1.0
 numpy==1.22.4
 pandas==1.4.2
