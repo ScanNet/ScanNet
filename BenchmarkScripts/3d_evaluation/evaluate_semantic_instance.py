@@ -185,7 +185,7 @@ def evaluate_matches(matches):
 
                     # prepare precision recall
                     num_examples      = len(y_score_sorted)
-                    num_true_examples = y_true_sorted_cumsum[-1]
+                    num_true_examples = y_true_sorted_cumsum[-1] if len(y_true_sorted_cumsum) > 0 else 0
                     precision         = np.zeros(num_prec_recall)
                     recall            = np.zeros(num_prec_recall)
 
