@@ -8,7 +8,7 @@ python-dateutil==2.8.2
 pytz==2022.1
 scikit-learn==1.1.1
 scipy==1.8.1
-setuptools==61.2.0
+setuptools==65.5.1
 six==1.16.0
 threadpoolctl==3.1.0
 trimesh==3.12.6
