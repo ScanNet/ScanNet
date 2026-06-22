@@ -17,8 +17,8 @@ class RGBDFrame():
     self.timestamp_depth = struct.unpack('Q', file_handle.read(8))[0]
     self.color_size_bytes = struct.unpack('Q', file_handle.read(8))[0]
     self.depth_size_bytes = struct.unpack('Q', file_handle.read(8))[0]
-    self.color_data = ''.join(struct.unpack('c'*self.color_size_bytes, file_handle.read(self.color_size_bytes)))
-    self.depth_data = ''.join(struct.unpack('c'*self.depth_size_bytes, file_handle.read(self.depth_size_bytes)))
+    self.color_data = b''.join(struct.unpack('c'*self.color_size_bytes, file_handle.read(self.color_size_bytes)))
+    self.depth_data = b''.join(struct.unpack('c'*self.depth_size_bytes, file_handle.read(self.depth_size_bytes)))
 
 
   def decompress_depth(self, compression_type):
@@ -55,7 +55,7 @@ class SensorData:
       version = struct.unpack('I', f.read(4))[0]
       assert self.version == version
       strlen = struct.unpack('Q', f.read(8))[0]
-      self.sensor_name = ''.join(struct.unpack('c'*strlen, f.read(strlen)))
+      self.sensor_name = b''.join(struct.unpack('c'*strlen, f.read(strlen)))
       self.intrinsic_color = np.asarray(struct.unpack('f'*16, f.read(16*4)), dtype=np.float32).reshape(4, 4)
       self.extrinsic_color = np.asarray(struct.unpack('f'*16, f.read(16*4)), dtype=np.float32).reshape(4, 4)
       self.intrinsic_depth = np.asarray(struct.unpack('f'*16, f.read(16*4)), dtype=np.float32).reshape(4, 4)
@@ -78,7 +78,7 @@ class SensorData:
   def export_depth_images(self, output_path, image_size=None, frame_skip=1):
     if not os.path.exists(output_path):
       os.makedirs(output_path)
-    print 'exporting', len(self.frames)//frame_skip, ' depth frames to', output_path
+    print('exporting', len(self.frames)//frame_skip, ' depth frames to', output_path)
     for f in range(0, len(self.frames), frame_skip):
       depth_data = self.frames[f].decompress_depth(self.depth_compression_type)
       depth = np.fromstring(depth_data, dtype=np.uint16).reshape(self.depth_height, self.depth_width)
@@ -93,7 +93,7 @@ class SensorData:
   def export_color_images(self, output_path, image_size=None, frame_skip=1):
     if not os.path.exists(output_path):
       os.makedirs(output_path)
-    print 'exporting', len(self.frames)//frame_skip, 'color frames to', output_path
+    print('exporting', len(self.frames)//frame_skip, 'color frames to', output_path)
     for f in range(0, len(self.frames), frame_skip):
       color = self.frames[f].decompress_color(self.color_compression_type)
       if image_size is not None:
@@ -110,7 +110,7 @@ class SensorData:
   def export_poses(self, output_path, frame_skip=1):
     if not os.path.exists(output_path):
       os.makedirs(output_path)
-    print 'exporting', len(self.frames)//frame_skip, 'camera poses to', output_path
+    print('exporting', len(self.frames)//frame_skip, 'camera poses to', output_path)
     for f in range(0, len(self.frames), frame_skip):
       self.save_mat_to_file(self.frames[f].camera_to_world, os.path.join(output_path, str(f) + '.txt'))
 
@@ -118,7 +118,7 @@ class SensorData:
   def export_intrinsics(self, output_path):
     if not os.path.exists(output_path):
       os.makedirs(output_path)
-    print 'exporting camera intrinsics to', output_path
+    print('exporting camera intrinsics to', output_path)
     self.save_mat_to_file(self.intrinsic_color, os.path.join(output_path, 'intrinsic_color.txt'))
     self.save_mat_to_file(self.extrinsic_color, os.path.join(output_path, 'extrinsic_color.txt'))
     self.save_mat_to_file(self.intrinsic_depth, os.path.join(output_path, 'intrinsic_depth.txt'))
